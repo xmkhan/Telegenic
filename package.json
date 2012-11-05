@@ -8,6 +8,6 @@
   "dependencies": {
     "express": "3.0.0",
     "jade": "*",
-    "mysql": "application-name"
+    "mysql": "2.0.0-alpha4"
   }
 }
