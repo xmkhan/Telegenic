@@ -11,39 +11,39 @@ var express = require('express')
   , mysql = require('mysql');
 
 var client = mysql.createConnection({
-    host: 'localhost'
+    host: 'localhost',
     user: 'root',
     password: '',
     database: 'io',
   });
 
 client.connect(function(err) {
-  if (err.fatal) throw err;
+  if (err && err.fatal) throw err;
 
   client.query(
     "CREATE TABLE IF NOT EXISTS users ( \
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY \
-    first_name VARCHAR(40) NOT NULL \
-    last_name VARCHAR(40) NOT NULL \
-    gender BOOLEAN \
-    birth_date DATE NOT NULL)", function(err, results) { console.log(results); /* Handle further initialization here */ });
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
+    first_name VARCHAR(40), \
+    last_name VARCHAR(40), \
+    gender BOOLEAN, \
+    birth_date DATE)", function(err, results) { console.log(err); /* Handle further initialization here */ });
 
   client.query(
     "CREATE TABLE IF NOT EXISTS comments ( \
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY \
-    creative_id INT UNSIGNED \
-    description VARCHAR(300) NOT NULL \
-    creation_date DATE NOT NULL \
-    last_updated DATE NOT NULL)", function(err, results) { console.log(results); /* Handle further initialization here */ });
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
+    creative_id INT UNSIGNED, \
+    description VARCHAR(300), \
+    creation_date DATE, \
+    last_updated DATE)", function(err, results) { console.log(err); /* Handle further initialization here */ });
 
   client.query(
     "CREATE TABLE IF NOT EXISTS creatives ( \
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY \
-    user_id INT UNSIGNED NOT NULL \
-    title VARCHAR(40) NOT NULL \
-    description VARCHAR(300) \
-    creation_date DATE NOT NULL)", function(err, results) { console.log(results); /* Handle further initialization here */ });
-}
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, \
+    user_id INT UNSIGNED, \
+    title VARCHAR(40), \
+    description VARCHAR(300), \
+    creation_date DATE)", function(err, results) { console.log(results); /* Handle further initialization here */ });
+});
 
 var app = express();
 
@@ -61,13 +61,14 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.set('client', client);
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+  app.configure('development', function(){
+    app.use(express.errorHandler());
+  });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+  app.get('/', routes.index);
+  app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
 });
