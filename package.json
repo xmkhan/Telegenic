@@ -10,6 +10,7 @@
     "jade": "*",
     "mysql": "2.0.0-alpha4",
     "underscore": "1.4.2",
+    "async": "0.1.22",
     "bcrypt": "0.7.3"
   }
 }
