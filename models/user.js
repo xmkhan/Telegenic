@@ -23,7 +23,6 @@ util.inherits(user, Schema);
  * @return {[Object]} user
  */
 user.prototype.save = function () {
-  var db = app.get('client');
   var options = {};
 
   // Build options dict
@@ -33,6 +32,19 @@ user.prototype.save = function () {
     }
   }
 
+  DB.client.connect();
+
+  DB.client.query('INSERT INTO users SET ?', options, function (err, result) {
+    if (err) {
+      console.log('Insert failed for ' + this);
+      return;
+    }
+    this.id = result.insertId;
+  });
+
+  DB.client.end();
+
+  return this;
 };
 
 user.prototype.fields = new Array(
