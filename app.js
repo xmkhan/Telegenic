@@ -55,7 +55,7 @@ app.configure(function () {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
+  app.use(express.cookieParser('a5563829ee69090e6828278fbd5d43f8'));
   app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
