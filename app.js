@@ -69,11 +69,11 @@ app.configure(function () {
   app.get('/', routes.index);
   app.get('/users', user.list);
 
-  app.get('/signup', user_auth.signup);
-  app.post('/signup', user_auth.signup_auth);
+  app.get('/signup', user.signup);
+  app.post('/signup', user_auth.signup);
 
-  app.get('/login', user_auth.login);
-  app.post('/login', user_auth.login_auth);
+  app.get('/login', user.login);
+  app.post('/login', user_auth.login);
 
   http.createServer(app).listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
