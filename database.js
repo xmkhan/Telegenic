@@ -11,7 +11,7 @@ var mysql = require('mysql');
  *  callback function to handle error/result responses
  * @type {[Object]}
  */
-var client = mysql.createConnection(process.ENV.DATABASE_URL);
 
+var client = mysql.createConnection(process.env.DATABASE_URL);
 
 exports.client = client;
