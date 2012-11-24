@@ -1,6 +1,5 @@
 var EventEmitter = require('events').EventEmitter,
-util = require('util'),
-mysql = require('mysql');
+util = require('util');
 
 
 /**
@@ -9,13 +8,13 @@ mysql = require('mysql');
  * @return {[type]}
  */
 function Schema(options) {
-  if (!(this instanceof Schema)) {
-    // Should we get into a situation, where we haven't subclassed Schema
-    return new Schema(options);
-  }
-  this.id = undefined;
-  this.methods = {};
-  this.options = options;
+    if (!(this instanceof Schema)) {
+        // Should we get into a situation, where we haven't subclassed Schema
+        return new Schema(options);
+    }
+    this.id = undefined;
+    this.methods = {};
+    this.options = options;
 }
 
 /**
@@ -28,13 +27,13 @@ util.inherits(Schema, EventEmitter);
  * @param {[JSON]} options [properties of the object]
  */
 Schema.prototype.add = function (options) {
-  if (this.options) {
-    for (var prop in this.options) {
-      if (prop && this.options.hasOwnProperty(prop)) {
-        this.prop = this.options[prop];
-      }
+    if (this.options) {
+        for (var prop in this.options) {
+            if (prop && this.options.hasOwnProperty(prop)) {
+                this.prop = this.options[prop];
+            }
+        }
     }
-  }
 };
 
 /**
@@ -44,15 +43,15 @@ Schema.prototype.add = function (options) {
  * @return {[Schema]}
  */
 Schema.prototype.method = function (name, fn) {
-  if ('string' != typeof name) {
-    for (var attr in name) {
-      // name is an object
-      this.methods[attr] = name[attr];
+    if ('string' != typeof name) {
+        for (var attr in name) {
+            // name is an object
+            this.methods[attr] = name[attr];
+        }
+    } else {
+        this.methods[name] = fn;
     }
-  } else {
-    this.methods[name] = fn;
-  }
-  return this;
+    return this;
 };
 
 exports.Schema = Schema;
