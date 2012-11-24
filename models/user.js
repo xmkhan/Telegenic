@@ -6,11 +6,11 @@ DB = require('../database'),
 Schema = require('./schema').Schema;
 
 function user(options) {
-  for (var opt in options) {
-    if (_.contains(this.fields, opt) && options.hasOwnProperty(opt)) {
-      this.opt = options[opt];
+    for (var opt in options) {
+        if (_.contains(this.fields, opt) && options.hasOwnProperty(opt)) {
+            this.opt = options[opt];
+        }
     }
-  }
 }
 
 /**
@@ -23,28 +23,28 @@ util.inherits(user, Schema);
  * @return {[Object]} user
  */
 user.prototype.save = function () {
-  var options = {};
+    var options = {};
 
   // Build options dict
-  for (var field in this.fields) {
-    if (this && this.hasOwnProperty(field)) {
-      options.field = this.field;
+    for (var field in this.fields) {
+        if (this && this.hasOwnProperty(field)) {
+            options.field = this.field;
+        }
     }
-  }
 
-  DB.client.connect();
+    DB.client.connect();
 
-  DB.client.query('INSERT INTO users SET ?', options, function (err, result) {
-    if (err) {
-      console.log('Insert failed for ' + this);
-      return;
-    }
-    this.id = result.insertId;
-  });
+    DB.client.query('INSERT INTO users SET ?', options, function (err, result) {
+        if (err) {
+            console.log('Error: ' + err + '. Failed for user' + this);
+            return;
+        }
+        this.id = result.insertId;
+    });
 
-  DB.client.end();
+    DB.client.end();
 
-  return this;
+    return this;
 };
 
 user.prototype.fields = new Array(
@@ -57,3 +57,4 @@ user.prototype.fields = new Array(
   "gender",
   "birth_date");
 
+module.exports.User = user;

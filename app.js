@@ -41,7 +41,7 @@ DB.client.query(
   user_id INT UNSIGNED, \
   title VARCHAR(40), \
   description VARCHAR(300), \
-  creation_date DATE)", function (err, results) { console.log(results); /* Handle further initialization here */ });
+  creation_date DATE)", function (err, results) { console.log(err); /* Handle further initialization here */ });
 
 DB.client.end();
 
