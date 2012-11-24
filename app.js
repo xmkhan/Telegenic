@@ -13,7 +13,7 @@ DB = require('./database');
 
 
 DB.client.connect(function (err) {
-  if (err && err.fatal) throw err;
+    if (err && err.fatal) throw err;
 });
 
 DB.client.query(
@@ -48,35 +48,35 @@ DB.client.end();
 var app = express();
 
 app.configure(function () {
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser('a5563829ee69090e6828278fbd5d43f8'));
-  app.use(express.session());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+    app.set('port', process.env.PORT || 3000);
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(express.cookieParser('a5563829ee69090e6828278fbd5d43f8'));
+    app.use(express.session());
+    app.use(app.router);
+    app.use(express.static(path.join(__dirname, 'public')));
 
-  app.configure('development', function () {
-    app.use(express.errorHandler());
-  });
+    app.configure('development', function () {
+        app.use(express.errorHandler());
+    });
 
 /* Current Routes */
 
-  app.get('/', routes.index);
-  app.get('/users', user.list);
+    app.get('/', routes.index);
+    app.get('/users', user.list);
 
-  app.get('/signup', user.signup);
-  app.post('/signup', user_auth.signup);
+    app.get('/signup', user.signup);
+    app.post('/signup', user_auth.signup);
 
-  app.get('/login', user.login);
-  app.post('/login', user_auth.login);
+    app.get('/login', user.login);
+    app.post('/login', user_auth.login);
 
-  http.createServer(app).listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
-  });
+    http.createServer(app).listen(app.get('port'), function () {
+        console.log("Express server listening on port " + app.get('port'));
+    });
 });
 
