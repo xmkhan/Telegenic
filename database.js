@@ -12,6 +12,6 @@ var mysql = require('mysql');
  * @type {[Object]}
  */
 
-var client = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
+var client = mysql.createConnection(process.env.DATABASE_URL);
 
 exports.client = client;

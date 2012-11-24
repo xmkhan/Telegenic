@@ -1,7 +1,6 @@
 var _ = require('underscore'),
 events = require('events'),
 util = require('util'),
-mysql = require('mysql'),
 DB = require('../database'),
 Schema = require('./schema').Schema;
 
