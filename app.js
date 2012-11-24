@@ -17,6 +17,13 @@ DB.client.connect(function (err) {
 });
 
 DB.client.query(
+    "CREATE DATABASE io", function (err, results) {
+        // If this succeeds, we couldn't find the previous io database
+        console.log(results);
+    }
+);
+
+DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
   username VARCHAR(40), \
