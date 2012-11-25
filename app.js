@@ -4,12 +4,12 @@
  */
 
 var express = require('express'),
-routes = require('./routes'),
-user = require('./routes/user'),
-user_auth = require('./routes/user_auth'),
-http = require('http'),
-path = require('path'),
-DB = require('./database');
+ routes = require('./routes'),
+ user = require('./routes/user'),
+ user_auth = require('./routes/user_auth'),
+ http = require('http'),
+ path = require('path'),
+ DB = require('./database');
 
 
 DB.client.connect(function (err) {
@@ -19,36 +19,42 @@ DB.client.connect(function (err) {
 DB.client.query(
     "CREATE DATABASE io", function (err, results) {
         // If this succeeds, we couldn't find the previous io database
-        console.log(results);
+        if (results) console.log(results);
     }
 );
 
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
-  username VARCHAR(40), \
-  password VARCHAR(60), \
-  first_name VARCHAR(40), \
-  last_name VARCHAR(40), \
-  email TEXT, \
-  gender BOOLEAN, \
-  birth_date DATE)", function (err, results) { console.log(err); /* Handle further initialization here */ });
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
+      username VARCHAR(40), \
+      password VARCHAR(60), \
+      first_name VARCHAR(40), \
+      last_name VARCHAR(40), \
+      email TEXT, \
+      gender BOOLEAN, \
+      birth_date DATE)", function (err, results) {
+    if (err) console.log(err); /* Handle further initialization here */
+});
 
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS comments ( \
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
-  creative_id INT UNSIGNED, \
-  description TEXT, \
-  creation_date DATE, \
-  last_updated DATE)", function (err, results) { console.log(err); /* Handle further initialization here */ });
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
+      creative_id INT UNSIGNED, \
+      description TEXT, \
+      creation_date DATE, \
+      last_updated DATE)", function (err, results) {
+    if (err) console.log(err); /* Handle further initialization here */
+});
 
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS creatives ( \
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, \
-  user_id INT UNSIGNED, \
-  title VARCHAR(40), \
-  description VARCHAR(300), \
-  creation_date DATE)", function (err, results) { console.log(err); /* Handle further initialization here */ });
+      id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, \
+      user_id INT UNSIGNED, \
+      title VARCHAR(40), \
+      description VARCHAR(300), \
+      creation_date DATE)", function (err, results) {
+    if (err) console.log(err); /* Handle further initialization here */
+});
 
 DB.client.end();
 
@@ -71,7 +77,7 @@ app.configure(function () {
         app.use(express.errorHandler());
     });
 
-/* Current Routes */
+    /* Current Routes */
 
     app.get('/', routes.index);
     app.get('/users', user.list);
@@ -86,4 +92,3 @@ app.configure(function () {
         console.log("Express server listening on port " + app.get('port'));
     });
 });
-

@@ -54,4 +54,10 @@ Schema.prototype.method = function (name, fn) {
     return this;
 };
 
+/**
+ * Array of the name of the properties for the model
+ * @type {Array}
+ */
+Schema.prototype.fields = [];
+
 exports.Schema = Schema;
