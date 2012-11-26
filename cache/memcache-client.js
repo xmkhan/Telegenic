@@ -38,7 +38,7 @@ module.exports.MemcachedStore = function (Store) {
     /**
      * Attempt to fetch session by the given 'sid'.
      * @param  {[String]}   sid    [session id]
-     * @param  {Function} callback [args: error, value, extras]
+     * @param  {Function} callback [args: error, value (JSON.parse() required), extras]
      */
     MemcachedStore.prototype.get = function (sid, callback) {
         this.client.get(sid, callback);
@@ -50,7 +50,7 @@ module.exports.MemcachedStore = function (Store) {
      * @param  {Function} callback [args: error, isSuccess, extras]
      */
     MemcachedStore.prototype.set = function (sid, session, callback) {
-        this.client.get(sid, callback);
+        this.client.get(sid, JSON.stringify(session), callback);
     };
 
     /**
