@@ -60,4 +60,16 @@ Schema.prototype.method = function (name, fn) {
  */
 Schema.prototype.fields = [];
 
+/**
+ * Returns a dictionary of the fields
+ * @return {[Object]} [Dictionary of the fields]
+ */
+Schema.prototype.fieldSet = function () {
+    var set = {};
+    for (var field in this.fields) {
+        if (field) set.field = this.field;
+    }
+    return set;
+};
+
 exports.Schema = Schema;

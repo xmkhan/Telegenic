@@ -4,9 +4,12 @@ util = require('util'),
 DB = require('../database'),
 Schema = require('./schema').Schema;
 
+// Module level constants
+var USER_TABLE = "users";
+
 function user(options) {
     for (var opt in options) {
-        if (_.contains(this.fields, opt) && options.hasOwnProperty(opt)) {
+        if (_.contains(this.fields, opt)) {
             this.opt = options[opt];
         }
     }
@@ -22,18 +25,11 @@ util.inherits(user, Schema);
  * @return {[Object]} user
  */
 user.prototype.save = function () {
-    var options = {};
-
-  // Build options dict
-    for (var field in this.fields) {
-        if (this && this.hasOwnProperty(field)) {
-            options.field = this.field;
-        }
-    }
+    var options = this.fieldSet;
 
     DB.client.connect();
 
-    DB.client.query('INSERT INTO users SET ?', options, function (err, result) {
+    DB.client.query('INSERT INTO ' + USER_TABLE + ' SET ?', options, function (err, result) {
         if (err) {
             console.log('Error: ' + err + '. Failed for user' + this);
             return;
