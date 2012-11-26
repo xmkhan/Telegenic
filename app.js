@@ -9,7 +9,8 @@ var express = require('express'),
  user_auth = require('./routes/user_auth'),
  http = require('http'),
  path = require('path'),
- DB = require('./database');
+ DB = require('./database'),
+ MemcachedStore = require('./cache/memcache-client').MemcachedStore(express.session.store);
 
 
 DB.client.connect(function (err) {
@@ -69,7 +70,10 @@ app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.cookieParser('a5563829ee69090e6828278fbd5d43f8'));
-    app.use(express.session());
+    app.use(express.session({
+        secret: 'a5563829ee69090e6828278fbd5d43f8',
+        store: new MemcachedStore()
+    }));
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
 
