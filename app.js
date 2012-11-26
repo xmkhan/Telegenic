@@ -10,7 +10,7 @@ var express = require('express'),
  http = require('http'),
  path = require('path'),
  DB = require('./database'),
- MemcachedStore = require('./cache/memcache-client').MemcachedStore(express.session.store);
+ MemcachedStore = require('./cache/memcache-client').MemcachedStore(express.session.Store);
 
 
 DB.client.connect(function (err) {

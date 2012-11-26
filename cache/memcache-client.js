@@ -1,5 +1,5 @@
 var memjs = require('memjs'),
-utils = require('util');
+util = require('util');
 
 /**
  * Creates a wrapper around the memjs library for functioning with memcache on
@@ -13,7 +13,7 @@ utils = require('util');
  * @type {[Object]}
  */
 
-var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create();
+var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create(process.env.MEMCACHE_SERVERS, {retires: 2, expires: 86400, logger: console});
 
 /**
  * Wrapper around our existing MemcachedClient + connect.session.store.
@@ -24,16 +24,13 @@ var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create();
 module.exports.MemcachedStore = function (Store) {
 
     function MemcachedStore() {
-        this.client = new MemcachedClient();
-        this.client.on('error', function (err) {
-            console.log(err);
-        });
+        this.client = MemcachedClient;
     }
 
     /**
      * Inherits from Connect.session.store
      */
-    utils.inherits(MemcachedStore, Store);
+    util.inherits(MemcachedStore, Store);
 
     /**
      * Attempt to fetch session by the given 'sid'.
