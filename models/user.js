@@ -46,14 +46,13 @@ user.prototype.save = function () {
     return this;
 };
 
-user.prototype.fields = new Array(
-  "id",
-  "username",
-  "password",
-  "first_name",
-  "last_name",
-  "email",
-  "gender",
-  "birth_date");
+user.prototype.fields = [ "id",
+                          "username",
+                          "password",
+                          "first_name",
+                          "last_name",
+                          "email",
+                          "gender",
+                          "birth_date"];
 
 module.exports.User = user;
