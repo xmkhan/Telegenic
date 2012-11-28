@@ -27,11 +27,11 @@ DB.client.query(
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
-      username VARCHAR(40), \
+      username VARCHAR(40) UNIQUE, \
       password VARCHAR(60), \
       first_name VARCHAR(40), \
       last_name VARCHAR(40), \
-      email TEXT, \
+      email TEXT UNIQUE, \
       gender BOOLEAN, \
       birth_date DATE)", function (err, results) {
     if (err) console.log(err); /* Handle further initialization here */
