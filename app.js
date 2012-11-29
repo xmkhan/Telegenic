@@ -10,19 +10,12 @@ var express = require('express'),
  http = require('http'),
  path = require('path'),
  DB = require('./database'),
- MemcachedStore = require('./cache/memcache-client').MemcachedStore(express.session.Store);
+ MemcachedStore = require('./cache/memcache-client').MemcachedStore(express);
 
 
 DB.client.connect(function (err) {
     if (err && err.fatal) throw err;
 });
-
-DB.client.query(
-    "CREATE DATABASE io", function (err, results) {
-        // If this succeeds, we couldn't find the previous io database
-        if (results) console.log(results);
-    }
-);
 
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
@@ -31,7 +24,7 @@ DB.client.query(
       password VARCHAR(60), \
       first_name VARCHAR(40), \
       last_name VARCHAR(40), \
-      email TEXT UNIQUE, \
+      email TEXT, \
       gender BOOLEAN, \
       birth_date DATE)", function (err, results) {
     if (err) console.log(err); /* Handle further initialization here */

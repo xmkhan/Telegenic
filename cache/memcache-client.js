@@ -58,7 +58,7 @@ module.exports.MemcachedStore = function (connect) {
             // Grab the session
             var session = JSON.parse(value);
 
-            if (session.cookie.expires >= Date.now()) {
+            if (session && session.cookie && session.cookie.expires && session.cookie.expires >= Date.now()) {
                 this.destroy(sid, function (err, success) {
                     callback(new Error("Session has expired"));
                 });
@@ -74,9 +74,9 @@ module.exports.MemcachedStore = function (connect) {
      * @param  {Function} callback [args: error, success]
      */
     MemcachedStore.prototype.set = function (sid, session, callback) {
-        this.client.destroy(sid, function (err, success) {});
+        this.destroy(sid, function (err, success) {});
 
-        if (!session.cookie.expires || session.cookie.expires >= Date.now()) {
+        if (!session || !session.cookie || !session.cookie.expires || session.cookie.expires >= Date.now()) {
             session.cookie.expires = new Date(Date.now() + MEMCACHE_SESSION_EXPIRATION);
         }
         session.cookie.maxAge = session.cookie.maxAge || MEMCACHE_SESSION_EXPIRATION;
