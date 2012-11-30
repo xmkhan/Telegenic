@@ -68,7 +68,7 @@ app.configure(function () {
         store: new MemcachedStore()
     }));
     app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public/')));
 
     app.configure('development', function () {
         app.use(express.errorHandler());
