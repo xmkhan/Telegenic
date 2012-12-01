@@ -1,7 +1,19 @@
 doctype 5
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title IO
+    - var DEFAULT_BOOTSTRAP_CSS_PATH = "bootstrap/docs/assets/css/"
+    - var DEFAULT_BOOTSTRAP_CSS = ["bootstrap.css", "bootstrap-responsive.css"]
+    each item in DEFAULT_BOOTSTRAP_CSS
+      link(href= DEFAULT_BOOTSTRAP_CSS_PATH + item, rel='stylesheet')
+    script(src="bootstrap/docs/assets/js/jquery.js")
+
+    body
+      block navigationbar
+      block content
+
+    - var DEFAULT_BOOTSTRAP_JS_PATH = "bootstrap/docs/assets/js/"
+    - var DEFAULT_BOOTSTRAP_JS = ["bootstrap-button.js", "bootstrap-transition.js", "bootstrap-dropdown.js", "bootstrap-collapse.js"]
+    each item in DEFAULT_BOOTSTRAP_JS
+      script(src= DEFAULT_BOOTSTRAP_JS_PATH + item)

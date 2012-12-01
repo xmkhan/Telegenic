@@ -1,0 +1,40 @@
+extends layout
+
+block navigationbar
+  style(type='text/css')
+    .dropdown-menu-group {
+      margin: 10px;
+    }
+  script
+    $(function(){
+      $('.dropdown-menu form').on('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+  .navbar.navbar-inverse.navbar-fixed-top
+    .navbar-inner
+      .container
+        a.brand IO
+        .nav-collapse.collapse
+          ul.nav
+            form.navbar-form
+              input.search-query.span4(type='text', placeholder='Search', data-provide="typeahead")
+              button.btn.btn-danger(type='submit', style='margin-left:5px;')
+                i.icon-white.icon-search
+          ul.nav.pull-right
+            div
+              a.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-user
+                |  Sign In &#32;
+                strong.caret
+              ul.dropdown-menu
+                li
+                  form(action='/login', method='POST', style='height: 140px;')
+                    .dropdown-menu-group
+                      input#username(type='text', placeholder='E-mail')
+                      input#password(type='password', placeholder='Password')
+                      label.checkbox
+                        input(type='checkbox', value='')
+                        | Remember me
+                      .divider
+                    button.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In
