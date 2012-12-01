@@ -59,11 +59,10 @@ module.exports.MemcachedStore = function (connect) {
             var session = JSON.parse(value);
 
             if (session && session.cookie && session.cookie.expires && session.cookie.expires >= Date.now()) {
-                this.destroy(sid, function (err, success) {
-                    callback(new Error("Session has expired"));
-                });
+                callback(new Error("Session has expired"));
+                this.destroy(sid, function (err, success) {});
             } else {
-                callback(null, session);
+                callback(err, session);
             }
         });
     };
