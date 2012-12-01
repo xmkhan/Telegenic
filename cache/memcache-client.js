@@ -16,13 +16,7 @@ var MEMCACHE_SESSION_EXPIRATION = 60 * 60 * 12 * 1000; // 0.5 day in millisecond
  * @type {[Object]}
  */
 
-var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
-    retires: 2,
-    expires: MEMCACHE_EXPIRATION,
-    logger: console,
-    username: process.env.MEMCACHIER_USERNAME,
-    password: process.env.MEMCACHIER_PASSWORD
-});
+var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create();
 
 /**
  * Wrapper around our existing MemcachedClient + connect.session.store.
