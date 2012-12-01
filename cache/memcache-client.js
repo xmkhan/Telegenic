@@ -8,7 +8,6 @@ var MEMCACHE_SESSION_EXPIRATION = 60 * 60 * 12 * 1000; // 0.5 day in millisecond
 /**
  * Creates a wrapper around the memjs library for functioning with memcache on
  * heroku, due to support for SASL authentication. memjs is able to read out the heroku-specifc
- * env variables: process.env.MEMCACHE_SERVERS, process.env.MEMCACHE_USERNAME, process.env.MEMCACHE_PASSWORD
  * Example usage:
      * var MemcacheClient = require('./memcache-client');
      * MemcacheClient.create();
@@ -17,7 +16,13 @@ var MEMCACHE_SESSION_EXPIRATION = 60 * 60 * 12 * 1000; // 0.5 day in millisecond
  * @type {[Object]}
  */
 
-var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create(process.env.MEMCACHE_SERVERS, {retires: 2, expires: MEMCACHE_EXPIRATION, logger: console});
+var MemcachedClient = module.exports.MemcachedClient = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
+    retires: 2,
+    expires: MEMCACHE_EXPIRATION,
+    logger: console,
+    username: process.env.MEMCACHIER_USERNAME,
+    password: process.env.MEMCACHIER_PASSWORD
+});
 
 /**
  * Wrapper around our existing MemcachedClient + connect.session.store.
@@ -32,11 +37,7 @@ module.exports.MemcachedStore = function (connect) {
     function MemcachedStore(options) {
         options = options || {};
         Store.call(this, options);
-        this.client = memjs.Client.create(process.env.MEMCACHE_SERVERS, {
-            retires: 2,
-            expires: MEMCACHE_SESSION_EXPIRATION,
-            logger: console
-        });
+        this.client = MemcachedClient;
     }
 
     /**
