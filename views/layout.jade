@@ -22,6 +22,10 @@ html
       .navbar.navbar-inverse.navbar-fixed-top
         .navbar-inner
           .container
+            a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
             a.brand IO
             .nav-collapse.collapse
               ul.nav
@@ -50,8 +54,9 @@ html
       block content
       hr
       footer
-        p.
-          &copy; IO 2012
+        div.container   
+          p.
+            &copy; IO 2012
 
     - var DEFAULT_BOOTSTRAP_JS_PATH = "bootstrap/js/"
     - var DEFAULT_BOOTSTRAP_JS = ["bootstrap-button.js", "bootstrap-transition.js", "bootstrap-dropdown.js", "bootstrap-collapse.js"]
