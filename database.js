@@ -3,8 +3,8 @@ var mysql = require('mysql');
 /**
  * Database client - provides an instance of the mySQL connection instance
  * Example usage:
-     * var DB = require('./database')
-     * DB.client.connect()
+     * var DB = require('./database');
+     * DB.client.connect();
      * ...
      * DB.client.end();
  *  It is up to the user to handle connect() and end(), the user can provide a

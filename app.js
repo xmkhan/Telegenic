@@ -11,9 +11,11 @@ var express = require('express'),
  http = require('http'),
  path = require('path'),
  DB = require('./database'),
- redis = require('redis'),
+ CC = require('./cache'),
  RedisStore = require('connect-redis')(express);
 
+// Module level constants
+var SESSION_MAX_AGE_IN_NSEC = 86400000;
 
 DB.client.connect(function (err) {
     if (err && err.fatal) throw err;
@@ -54,17 +56,6 @@ DB.client.query(
 
 DB.client.end();
 
-// Heroku redis config
-var client;
-var REDIS_DATABASE_NAME = 'redistogo';
-if (process.env.REDISTOGO_URL) {
-    var redisURL =  url.parse(process.env.REDISTOGO_URL);
-    client = redis.createClient(redisURL.port, redisURL.host);
-    client.auth(redisURL.auth.split(':')[1]);
-} else {
-    client = redis.createClient();
-}
-
 var app = express();
 
 app.configure(function () {
@@ -78,9 +69,9 @@ app.configure(function () {
     app.use(express.cookieParser(process.env.CLIENT_SECRET || 'a5563829ee69090e6828278fbd5d43f8'));
     app.use(express.session({
         secret: process.env.CLIENT_SECRET || 'a5563829ee69090e6828278fbd5d43f8',
-        maxAge: new Date(Date.now() + 86400000), // 24 hour lifetime
+        maxAge: new Date(Date.now() + SESSION_MAX_AGE_IN_NSEC),
         store: new RedisStore({
-            client: client
+            client: CC.client
         })
     }));
     app.use(app.router);
