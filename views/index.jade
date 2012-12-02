@@ -1,38 +1,38 @@
 extends layout
 
 block content
-  div.container.hero-unit
-    div.row
+  .container.hero-unit
+    .row
       h1 #{title}
-      div.span8.index-content
+      .span8.index-content
         p
           | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
         p
           a.btn.btn-primary.btn-large Learn more &raquo;
-      div.span4.widget-content
-        div.widget-box
-          div.form-horizontal.well.row
+      .span4.widget-content
+        .widget-box
+          .form-horizontal.well.row
             fieldset
               legend sign up for free!
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="Username", id="req.body.username")
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="First Name", id="req.body.first_name")
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="Last Name", id="req.body.last_name")
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="Password", id="req.body.password")
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="Retype password")
-              div.control-group
+              .control-group
                 input.span4(type="text", placeholder="Email", id="req.body.email)
-              div.control-group
+              .control-group
                 input.span4(type="date", placeholder="dd/mm/yyy", id="req.body.birth_date")
-              div.control-group
+              .control-group
                 select.span4(name="gender", id="req.body.gender")
                   option Gender
                   option Male
                   option Female
-              div.control-group
+              .control-group
                 button.btn.btn-primary(type="submit") Sign Up
  
