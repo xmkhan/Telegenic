@@ -1,9 +1,38 @@
 extends layout
 
 block content
-  .hero-unit
-    h1 #{title}
-    p
-      | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
-    p
-      a.btn.btn-primary.btn-large Learn more &raquo;
+  .container.hero-unit
+    .row
+      h1 #{title}
+      .span8.index-content
+        p
+          | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
+        p
+          a.btn.btn-primary.btn-large Learn more &raquo;
+      .span4.widget-content
+        .widget-box
+          .form-horizontal.well.row
+            fieldset
+              legend sign up for free!
+              .control-group
+                input.span4(type="text", placeholder="Username", id="req.body.username")
+              .control-group
+                input.span4(type="text", placeholder="First Name", id="req.body.first_name")
+              .control-group
+                input.span4(type="text", placeholder="Last Name", id="req.body.last_name")
+              .control-group
+                input.span4(type="text", placeholder="Password", id="req.body.password")
+              .control-group
+                input.span4(type="text", placeholder="Retype password")
+              .control-group
+                input.span4(type="text", placeholder="Email", id="req.body.email)
+              .control-group
+                input.span4(type="date", placeholder="dd/mm/yyy", id="req.body.birth_date")
+              .control-group
+                select.span4(name="gender", id="req.body.gender")
+                  option Gender
+                  option Male
+                  option Female
+              .control-group
+                button.btn.btn-primary(type="submit") Sign Up
+ 
