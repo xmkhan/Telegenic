@@ -1,8 +1,7 @@
 var _ = require('underscore'),
 bcrypt = require('bcrypt'),
-events = require('events'),
 util = require('util'),
-DB = require('../database'),
+DB = require('../store/database'),
 Schema = require('./schema').Schema;
 
 // Module level constants
@@ -10,6 +9,8 @@ var USER_TABLE = "users";
 var BCRPYT_SALT_ROUNDS = 10;
 
 function User(options) {
+    if (!options) return;
+
     for (var opt in options) {
         if (_.contains(this.fields, opt)) {
             this.opt = options[opt];
@@ -48,42 +49,50 @@ User.prototype.save = function () {
     return this;
 };
 
-User.prototype.fields = [ "id",
-                          "username",
-                          "password",
-                          "first_name",
-                          "last_name",
-                          "email",
-                          "gender",
-                          "birth_date"];
+User.fields = [ "id",
+                "username",
+                "password",
+                "first_name",
+                "last_name",
+                "email",
+                "gender",
+                "birth_date"
+                ];
 
-User.prototype.find = function (id) {
+User.findById = function (id, callback) {
     DB.client.connect();
-
-    DB.client.query('SELECT * FROM ' + USER_TABLE + ' WHERE id = ? LIMIT 1', id,
-        function (err, result) {
+    var SQL = util.format('SELECT %s.id FROM %s WHERE id = ? LIMIT 1', USER_TABLE, USER_TABLE);
+    DB.client.query(SQL, id, function (err, result) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, new User(result));
+        }
 
     });
 
     DB.client.end();
 };
 
-module.exports.LoginManager = function (user, pass, callback) {
+User.findByUsernameAndPassword = function (user, pass, callback) {
     bcrypt.hash(pass, BCRPYT_SALT_ROUNDS, function (err, hash) {
         pass = hash;
     });
 
     DB.client.connect();
-
-    DB.client.query('SELECT * FROM ' + USER_TABLE + ' WHERE username = ? AND password = ? LIMIT 1', user, pass,
-        function (err, result) {
+    var SQL = util.format('SELECT %s.username, %s.password FROM  %s WHERE username = ? AND password = ? LIMIT 1', USER_TABLE, USER_TABLE, USER_TABLE);
+    DB.client.query(SQL, user, pass, function (err, result) {
             if (err) {
                 callback(err);
             } else {
                 callback(null, new User(result));
             }
         });
+
+    DB.client.end();
 };
 
 
-module.exports.User = User;
+module.exports = User;
+
+module.exports.BCRPYT_SALT_ROUNDS = BCRPYT_SALT_ROUNDS;

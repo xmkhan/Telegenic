@@ -6,12 +6,12 @@
 var express = require('express'),
  url = require('url'),
  routes = require('./routes'),
- user = require('./routes/user'),
  user_auth = require('./routes/user_auth'),
  http = require('http'),
  path = require('path'),
- DB = require('./database'),
- CC = require('./cache'),
+ auth = require('./auth/auth'),
+ DB = require('./store/database'),
+ CC = require('./store/cache'),
  RedisStore = require('connect-redis')(express);
 
 // Module level constants
@@ -74,6 +74,10 @@ app.configure(function () {
             client: CC.client
         })
     }));
+
+    app.use(auth.passport.initialize());
+    app.use(auth.passport.session());
+
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public/')));
 
@@ -84,13 +88,10 @@ app.configure(function () {
     /* Current Routes */
 
     app.get('/', routes.index);
-    app.get('/users', user.list);
 
-    app.get('/signup', user.signup);
     app.post('/signup', user_auth.signup);
 
-    app.get('/login', user.login);
-    app.post('/login', user_auth.login);
+    app.post('/login', user_auth.user_login);
 
     http.createServer(app).listen(app.get('port'), function () {
         console.log("Express server listening on port " + app.get('port'));
