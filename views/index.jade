@@ -1,37 +1,63 @@
 extends layout
 
 block content
+  link(rel='stylesheet', href='index.css')
+  script(src='javascripts/jquery.tools.min.js')
+  script(src='javascripts/forms.js')
   .container.hero-unit
     .row
       h1 #{title}
-      .span8.index-content
+      .span9.index-content
         p
           | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
         p
           a.btn.btn-primary.btn-large Learn more &raquo;
-      .span4.widget-content
+      .span3.widget-content
         .widget-box
-          .form-horizontal.well.row
+          form.well.row-fluid(method="POST", id="register")
             fieldset
-              legend Sign up for free!
-              .control-group
-                input.span4(type="text", placeholder="Username", id="username")
-              .control-group
-                input.span4.inline(type="text", placeholder="First Name", id="first_name")
-              .control-group
-                input.span4.inline(type="text", placeholder="Last Name", id="last_name")
-              .control-group
-                input.span4(type="text", placeholder="Password", id="password")
-              .control-group
-                input.span4(type="text", placeholder="Retype password")
-              .control-group
-                input.span4(type="text", placeholder="Email", id="email")
-              .control-group
-                input.span4(type="date", placeholder="dd/mm/yyy", id="birth_date")
-              .control-group
-                select.span4(name="gender", id="gender")
+              legend sign up for free!
+              .clearfix
+                input.span12(type="text", placeholder="Username", name="username", id="username", required, pattern="^[a-z][a-z0-9_]*$")
+              .controls-row.clearfix
+                input.span6(type="text", placeholder="First Name", id="first_name")
+                input.span6(type="text", placeholder="Last Name", id="last_name")
+              .clearfix
+                input.span12(type="password", placeholder="password", id="Password",size="30", required)
+              .clearfix
+                input.span12(type="password", placeholder="Retype password", id="Password2",size="30", required)
+              .clearfix
+                input.span12(type="email", placeholder="Email", name='email', id='email', required)
+              .clearfix
+                input.span12(type="date", placeholder="dd/mm/yyy", id="birth_date")
+              .clearfix
+                select.span12(name="gender", id="req.body.gender")
                   option Gender
                   option Male
                   option Female
-              .control-group
-                button.btn.btn-primary(type="submit") Create My Account
+              .control-group.clearfix
+                .btn-group.span12(data-toggle="buttons-radio")
+                  button.btn.btn-index-gender(type="button") Male
+                  button.btn.btn-index-gender(type="button", disabled) Sex
+                  button.btn.btn-index-gender(type="button") Female
+              .actions
+                input.btn.btn-primary(type="submit", value="Sign Up")
+
+          script.
+            $(function () {
+              $('#register').submit(function () {
+                var form = $(this);
+                if ($('#Password').val() != $('#Password2').val()) {
+                  form.data('validator').invalidate({
+                    Password2: "Passwords don't match"
+                  });
+                  return false;
+                }
+              });
+            });
+
+
+
+                
+
+ 
