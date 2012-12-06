@@ -6,12 +6,12 @@
 var express = require('express'),
  url = require('url'),
  routes = require('./routes'),
- user_auth = require('./routes/user_auth'),
  http = require('http'),
  path = require('path'),
  auth = require('./auth/auth'),
  DB = require('./store/database'),
  CC = require('./store/cache'),
+ login = require('./routes/login'),
  RedisStore = require('connect-redis')(express);
 
 // Module level constants
@@ -89,9 +89,9 @@ app.configure(function () {
 
     app.get('/', routes.index);
 
-    app.post('/signup', user_auth.signup);
+    app.post('/signup', login.signup);
 
-    app.post('/login', user_auth.user_login);
+    app.post('/login', login.login);
 
     http.createServer(app).listen(app.get('port'), function () {
         console.log("Express server listening on port " + app.get('port'));

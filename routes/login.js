@@ -30,7 +30,7 @@ exports.signup = function (req, res) {
     }
 };
 
-exports.user_login = function (req, res) {
+exports.login = function (req, res) {
 
 
     User.findByUsernameAndPassword(req.body.username, req.body.password, function (err, user) {
