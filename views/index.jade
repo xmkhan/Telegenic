@@ -1,37 +1,46 @@
 extends layout
 
 block content
-  .container.hero-unit
-    .row
-      h1 #{title}
-      .span8.index-content
-        p
-          | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
-        p
-          a.btn.btn-primary.btn-large Learn more &raquo;
-      .span4.widget-content
-        .widget-box
-          .form-horizontal.well.row
+  .container
+      .hero-unit
+        h1 #{title}
+      .row
+        .span6.index-content
+          p
+            | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
+          p
+            a.btn.btn-primary.btn-large Learn more &raquo;
+        .span6.widget-content
+          form.form-horizontal.well#signup_form(action='/signup', method='post')
             fieldset
-              legend Sign up for free!
+              legend Sign up, it's free!
               .control-group
-                input.span4(type="text", placeholder="Username", id="username")
+                label.control-label(for='username') Email:
+                .controls
+                  input.input-xlarge(type='text', placeholder='', name='username')
+                  p.help-block Only letters and dots. No punctuations
               .control-group
-                input.span4.inline(type="text", placeholder="First Name", id="first_name")
+                label.control-label(for='password') Password:
+                .controls
+                  input.input-xlarge(type='password', placeholder='', name='password')
+                  p.help-block Minimum of 7 letters, symbols, or punctuations
               .control-group
-                input.span4.inline(type="text", placeholder="Last Name", id="last_name")
+                label.control-label Gender:
+                .controls
+                  select.input-xlarge#gender(name='gender')
+                    option Male
+                    option Female
               .control-group
-                input.span4(type="text", placeholder="Password", id="password")
+                label.control-label(for='first_name') Name:
+                .controls
+                  input.input-xlarge#first_name(type='text', placeholder='', name='first_name')
+                  p.help-block Optional: Enter your first name
               .control-group
-                input.span4(type="text", placeholder="Retype password")
+                label.control-label(for='last_name') Last:
+                .controls
+                  input.input-xlarge#last_name(type='text', placeholder='', name='last_name')
+                  p.help-block Optional: Enter your last name
               .control-group
-                input.span4(type="text", placeholder="Email", id="email")
-              .control-group
-                input.span4(type="date", placeholder="dd/mm/yyy", id="birth_date")
-              .control-group
-                select.span4(name="gender", id="gender")
-                  option Gender
-                  option Male
-                  option Female
-              .control-group
-                button.btn.btn-primary(type="submit") Create My Account
+                label.control-label
+                .controls
+            input.btn.btn-primary(type='submit') Register

@@ -8,11 +8,22 @@ Schema = require('./schema').Schema;
 var USER_TABLE = "users";
 var BCRPYT_SALT_ROUNDS = 10;
 
+
+var fields = [ "id",
+                "username",
+                "password",
+                "first_name",
+                "last_name",
+                "email",
+                "gender",
+                "birth_date"
+             ];
+
 function User(options) {
     if (!options) return;
 
     for (var opt in options) {
-        if (_.contains(this.fields, opt)) {
+        if (_.contains(fields, opt)) {
             this.opt = options[opt];
         }
     }
@@ -28,7 +39,7 @@ util.inherits(User, Schema);
  * @return {[Object]} user
  */
 User.prototype.save = function () {
-    var options = this.fieldSet;
+    var options = this.fieldSet();
 
     bcrypt.hash(this.password, BCRPYT_SALT_ROUNDS, function (err, hash) {
         this.password = hash;
@@ -48,16 +59,6 @@ User.prototype.save = function () {
 
     return this;
 };
-
-User.fields = [ "id",
-                "username",
-                "password",
-                "first_name",
-                "last_name",
-                "email",
-                "gender",
-                "birth_date"
-                ];
 
 User.findById = function (id, callback) {
     DB.client.connect();
