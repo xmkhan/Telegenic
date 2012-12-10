@@ -3,23 +3,30 @@
  */
 var crypto = require('crypto'),
  User = require('../models/user'),
-BCRPYT_SALT_ROUNDS  = require('../models/user').BCRPYT_SALT_ROUNDS,
-passport = require('../auth/auth').passport;
+ util = require('util'),
+ passport = require('../auth/auth').passport;
 
 exports.signup = function (req, res) {
+    // TODO: Need to apply frontend validation to the backend.
+    var name = req.body.full_name.split(" ");
+    var birthdayFormat = util.format("%d/%d/%d",
+        parseInt(req.body.month, 10) + 1,
+        req.body.day,
+        req.body.year);
 
     var user = new User({
         username: req.body.username,
         password: req.body.password,
-        first_name: req.bodyfirst_name,
-        last_name: req.body.last_name,
+        first_name: name[0],
+        last_name: name[name.length - 1],
         email: req.body.email,
         gender: req.body.gender,
-        birth_date: req.body.birth_date
+        birth_date: new Date(birthdayFormat)
     });
+
     if (!user) {
-        // TODO: add some query param to execute error msg
         req.logout();
+        // TODO: add some query param to execute error msg
         res.redirect('/');
     } else {
         user.save();

@@ -1,5 +1,33 @@
 extends layout
 
+block scripts
+  script
+    $(function(){
+      var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      $.each(MONTHS, function(index, value) {
+          var optionMonthString = "<option value="+index+">"+value+"</option>";
+          $('#month').append(optionMonthString);
+      });
+      for(var j=new Date().getFullYear(); j >= 1920; j--) {
+        var year = "<option value="+j+">"+j+"</option>";
+        $('#year').append(year);
+      }
+      for (var j=1; j<=31; j++) {
+        var day = "<option value="+j+">"+j+"</option>";
+        $('#day').append(day);
+      }
+      var DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      $('#month').change(function() {
+          $('#day').empty();
+          var defaultDayOptionString = "<option value=-1 selected=\"selected\">Day</option>";
+          $('#day').append(defaultDayOptionString);
+          var DAYS_IN_MONTH = DAYS[$('#month').val()];
+          for (var i=1;i<=DAYS_IN_MONTH;i++) {
+            var optionDayString = "<option value="+i+">"+i+"</option>";
+            $('#day').append(optionDayString);
+          }
+        });
+    });
 block content
   .container
       .hero-unit
@@ -15,9 +43,9 @@ block content
             fieldset
               legend Sign up, it's free!
               .control-group
-                label.control-label(for='username') Email:
+                label.control-label(for='email') Email:
                 .controls
-                  input.input-xlarge(type='text', placeholder='', name='username')
+                  input.input-xlarge(type='text', placeholder='', name='email')
                   p.help-block Only letters and dots. No punctuations
               .control-group
                 label.control-label(for='password') Password:
@@ -31,16 +59,17 @@ block content
                     option Male
                     option Female
               .control-group
-                label.control-label(for='first_name') Name:
+                label.control-label(for='full_name') Name:
                 .controls
-                  input.input-xlarge#first_name(type='text', placeholder='', name='first_name')
-                  p.help-block Optional: Enter your first name
+                  input.input-xlarge#full_name(type='text', placeholder='', name='full_name')
+                  p.help-block Enter your full name
               .control-group
-                label.control-label(for='last_name') Last:
-                .controls
-                  input.input-xlarge#last_name(type='text', placeholder='', name='last_name')
-                  p.help-block Optional: Enter your last name
-              .control-group
-                label.control-label
-                .controls
+                label.control-label(for='birthday') Birthday:
+                .row
+                  select.input-small.inline-select#month(name='month')
+                    option(selected='selected', value=-1) Month
+                  select.input-small.inline-select#day(name='day')
+                    option(selected='selected', value=-1) Day
+                  select.input-small.inline-select#year(name='year')
+                    option(selected='selected', value=-1) Year
             input.btn.btn-primary(type='submit') Register

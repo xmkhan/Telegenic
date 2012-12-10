@@ -28,7 +28,7 @@ DB.client.query(
       password VARCHAR(60), \
       first_name VARCHAR(40), \
       last_name VARCHAR(40), \
-      email TEXT, \
+      email VARCHAR(80) UNIQUE NOT NULL, \
       gender BOOLEAN, \
       birth_date DATE)", function (err, results) {
     if (err) console.log(err); /* Handle further initialization here */

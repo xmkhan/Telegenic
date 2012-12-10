@@ -24,7 +24,7 @@ function User(options) {
 
     for (var opt in options) {
         if (_.contains(fields, opt)) {
-            this.opt = options[opt];
+            this[opt] = options[opt];
         }
     }
 }
@@ -35,15 +35,18 @@ function User(options) {
 util.inherits(User, Schema);
 
 /**
- * [Saves the following model into the database]
+ * Sets the fields prototype to the users fields
+ */
+User.prototype.fields = fields;
+
+/**
+ * Saves the following model into the database
  * @return {[Object]} user
  */
 User.prototype.save = function () {
     var options = this.fieldSet();
 
-    bcrypt.hash(this.password, BCRPYT_SALT_ROUNDS, function (err, hash) {
-        this.password = hash;
-    });
+    this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(BCRPYT_SALT_ROUNDS));
 
     DB.client.connect();
 

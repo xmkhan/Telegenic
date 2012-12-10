@@ -66,8 +66,8 @@ Schema.prototype.fields = [];
  */
 Schema.prototype.fieldSet = function () {
     var set = {};
-    for (var field in this.fields) {
-        if (field) set.field = this.field;
+    for (var index in this.fields) {
+        set[this.fields[index]] = this[this.fields[index]];
     }
     return set;
 };
