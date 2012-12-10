@@ -7,13 +7,10 @@ html
     - var DEFAULT_BOOTSTRAP_CSS = ["bootstrap.css", "bootstrap-responsive.css"]
     each item in DEFAULT_BOOTSTRAP_CSS
       link(href= DEFAULT_BOOTSTRAP_CSS_PATH + item, rel='stylesheet')
-    script(src="javascripts/jquery.min.js")
+    script(src="bootstrap/docs/assets/js/jquery.js")
     style(type='text/css')
       .dropdown-menu-group {
         margin: 10px;
-      }
-      .inline-select {
-        margin-left: 10px;
       }
     script
       $(function(){
@@ -21,7 +18,6 @@ html
           e.stopPropagation();
         });
       });
-    block scripts
     body
       .navbar.navbar-inverse.navbar-fixed-top
         .navbar-inner
@@ -58,7 +54,7 @@ html
       block content
       hr
       footer
-        .container
+        div.container   
           p.
             &copy; IO 2012
 
