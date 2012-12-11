@@ -48,9 +48,8 @@ User.prototype.save = function () {
 
     this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(BCRPYT_SALT_ROUNDS));
 
-    DB.client.connect();
-
-    DB.client.query('INSERT INTO ' + USER_TABLE + ' SET ?', options, function (err, result) {
+    var SQL = util.format('INSERT INTO %s SET ?', USER_TABLE);
+    DB.client.query(SQL, options, function (err, result) {
         if (err) {
             console.log('Error: ' + err + '. Failed for user' + this);
             return;
@@ -58,13 +57,11 @@ User.prototype.save = function () {
         this.id = result.insertId;
     });
 
-    DB.client.end();
 
     return this;
 };
 
 User.findById = function (id, callback) {
-    DB.client.connect();
     var SQL = util.format('SELECT %s.id FROM %s WHERE id = ? LIMIT 1', USER_TABLE, USER_TABLE);
     DB.client.query(SQL, id, function (err, result) {
         if (err) {
@@ -72,10 +69,8 @@ User.findById = function (id, callback) {
         } else {
             callback(null, new User(result));
         }
-
     });
 
-    DB.client.end();
 };
 
 User.findByUsernameAndPassword = function (user, pass, callback) {
@@ -83,7 +78,6 @@ User.findByUsernameAndPassword = function (user, pass, callback) {
         pass = hash;
     });
 
-    DB.client.connect();
     var SQL = util.format('SELECT %s.username, %s.password FROM  %s WHERE username = ? AND password = ? LIMIT 1', USER_TABLE, USER_TABLE, USER_TABLE);
     DB.client.query(SQL, user, pass, function (err, result) {
             if (err) {
@@ -93,7 +87,6 @@ User.findByUsernameAndPassword = function (user, pass, callback) {
             }
         });
 
-    DB.client.end();
 };
 
 

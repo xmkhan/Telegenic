@@ -54,8 +54,6 @@ DB.client.query(
     if (err) console.log(err); /* Handle further initialization here */
 });
 
-DB.client.end();
-
 var app = express();
 
 app.configure(function () {

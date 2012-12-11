@@ -5,8 +5,9 @@ var mysql = require('mysql');
  * Example usage:
      * var DB = require('./database');
      * DB.client.connect();
+     * DB.client.query(SQLString, function(err, result)) {
      * ...
-     * DB.client.end();
+     * });
  *  It is up to the user to handle connect() and end(), the user can provide a
  *  callback function to handle error/result responses
  * @type {[Object]}
