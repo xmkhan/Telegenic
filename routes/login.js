@@ -15,7 +15,7 @@ exports.signup = function (req, res) {
         req.body.year);
 
     var user = new User({
-        username: req.body.username,
+        username: req.body.email, // By default we set the email -> username
         password: req.body.password,
         first_name: name[0],
         last_name: name[name.length - 1],
