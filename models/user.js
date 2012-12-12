@@ -1,18 +1,31 @@
 var _ = require('underscore'),
+mysql = require('mysql'),
 bcrypt = require('bcrypt'),
-events = require('events'),
 util = require('util'),
-DB = require('../database'),
+DB = require('../store/database'),
 Schema = require('./schema').Schema;
 
 // Module level constants
 var USER_TABLE = "users";
 var BCRPYT_SALT_ROUNDS = 10;
 
+
+var fields = [ "id",
+                "username",
+                "password",
+                "first_name",
+                "last_name",
+                "email",
+                "gender",
+                "birth_date"
+             ];
+
 function User(options) {
+    if (!options) return;
+
     for (var opt in options) {
-        if (_.contains(this.fields, opt)) {
-            this.opt = options[opt];
+        if (_.contains(fields, opt)) {
+            this[opt] = options[opt];
         }
     }
 }
@@ -23,67 +36,61 @@ function User(options) {
 util.inherits(User, Schema);
 
 /**
- * [Saves the following model into the database]
- * @return {[Object]} user
+ * Sets the fields prototype to the users fields
  */
-User.prototype.save = function () {
-    var options = this.fieldSet;
+User.prototype.fields = fields;
 
-    bcrypt.hash(this.password, BCRPYT_SALT_ROUNDS, function (err, hash) {
-        this.password = hash;
-    });
+/**
+ * Saves the following model into the database
+ * If successful, saves the user.id otherwise user.id = undefined
+ * @param { Function} callback(err) function to call back
+ */
+User.prototype.save = function (callback) {
+    this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(BCRPYT_SALT_ROUNDS));
 
-    DB.client.connect();
+    var options = this.fieldSet();
+    var self = this;
 
-    DB.client.query('INSERT INTO ' + USER_TABLE + ' SET ?', options, function (err, result) {
+    var SQL = util.format('INSERT INTO %s SET ?', USER_TABLE);
+    DB.client.query(SQL, options, function (err, result) {
         if (err) {
-            console.log('Error: ' + err + '. Failed for user' + this);
-            return;
+            return callback(err);
         }
-        this.id = result.insertId;
+        self.id = result.insertId;
+        callback();
     });
-
-    DB.client.end();
-
-    return this;
 };
 
-User.prototype.fields = [ "id",
-                          "username",
-                          "password",
-                          "first_name",
-                          "last_name",
-                          "email",
-                          "gender",
-                          "birth_date"];
-
-User.prototype.find = function (id) {
-    DB.client.connect();
-
-    DB.client.query('SELECT * FROM ' + USER_TABLE + ' WHERE id = ? LIMIT 1', id,
-        function (err, result) {
-
+User.findById = function (id, callback) {
+    var SQL = util.format('SELECT %s.id FROM %s WHERE id = ? LIMIT 1', USER_TABLE, USER_TABLE);
+    DB.client.query(SQL, id, function (err, result, fields) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, new User(result[0]));
+        }
     });
-
-    DB.client.end();
 };
 
-module.exports.LoginManager = function (user, pass, callback) {
-    bcrypt.hash(pass, BCRPYT_SALT_ROUNDS, function (err, hash) {
-        pass = hash;
-    });
+User.findByUsernameAndPassword = function (user, pass, callback) {
 
-    DB.client.connect();
-
-    DB.client.query('SELECT * FROM ' + USER_TABLE + ' WHERE username = ? AND password = ? LIMIT 1', user, pass,
-        function (err, result) {
+    var SQL = util.format('SELECT * FROM %s WHERE username = %s LIMIT 1',  USER_TABLE, mysql.escape(user));
+    DB.client.query(SQL, function (err, result, fields) {
             if (err) {
                 callback(err);
             } else {
-                callback(null, new User(result));
+                // Load DB hash and compare with current pass
+                if (bcrypt.compareSync(pass, result[0].password)) {
+                    callback(null, new User(result[0]));
+                } else {
+                    callback();
+                }
             }
         });
+
 };
 
 
-module.exports.User = User;
+module.exports = User;
+
+module.exports.BCRPYT_SALT_ROUNDS = BCRPYT_SALT_ROUNDS;

@@ -6,12 +6,12 @@
 var express = require('express'),
  url = require('url'),
  routes = require('./routes'),
- user = require('./routes/user'),
- user_auth = require('./routes/user_auth'),
  http = require('http'),
  path = require('path'),
- DB = require('./database'),
- CC = require('./cache'),
+ auth = require('./auth/auth'),
+ DB = require('./store/database'),
+ CC = require('./store/cache'),
+ login = require('./routes/login'),
  RedisStore = require('connect-redis')(express);
 
 // Module level constants
@@ -25,10 +25,10 @@ DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
       username VARCHAR(40) UNIQUE, \
-      password VARCHAR(60), \
+      password CHAR(60), \
       first_name VARCHAR(40), \
       last_name VARCHAR(40), \
-      email TEXT, \
+      email VARCHAR(80) UNIQUE NOT NULL, \
       gender BOOLEAN, \
       birth_date DATE)", function (err, results) {
     if (err) console.log(err); /* Handle further initialization here */
@@ -54,8 +54,6 @@ DB.client.query(
     if (err) console.log(err); /* Handle further initialization here */
 });
 
-DB.client.end();
-
 var app = express();
 
 app.configure(function () {
@@ -74,6 +72,10 @@ app.configure(function () {
             client: CC.client
         })
     }));
+
+    app.use(auth.passport.initialize());
+    app.use(auth.passport.session());
+
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public/')));
 
@@ -84,13 +86,10 @@ app.configure(function () {
     /* Current Routes */
 
     app.get('/', routes.index);
-    app.get('/users', user.list);
 
-    app.get('/signup', user.signup);
-    app.post('/signup', user_auth.signup);
+    app.post('/signup', login.signup);
 
-    app.get('/login', user.login);
-    app.post('/login', user_auth.login);
+    app.post('/login', login.login);
 
     http.createServer(app).listen(app.get('port'), function () {
         console.log("Express server listening on port " + app.get('port'));
