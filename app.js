@@ -25,7 +25,7 @@ DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \
       username VARCHAR(40) UNIQUE, \
-      password VARCHAR(60), \
+      password CHAR(60), \
       first_name VARCHAR(40), \
       last_name VARCHAR(40), \
       email VARCHAR(80) UNIQUE NOT NULL, \

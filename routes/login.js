@@ -46,10 +46,10 @@ exports.login = function (req, res) {
 
     User.findByUsernameAndPassword(req.body.user.username, req.body.user.password, function (err, user) {
         if (!err && user) {
-            req.login(user, function (err) {
-                if (err) res.redirect('/?session_expired=true');
-                else res.redirect('/user/' + user.id);
-            });
+            res.redirect('/user/' + user.id);
+            if (req.isUnauthenticated()) {
+                req.login(user, function (err) {});
+            }
         } else {
             res.redirect('/?wrong_info=true');
         }

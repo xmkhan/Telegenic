@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+mysql = require('mysql'),
 bcrypt = require('bcrypt'),
 util = require('util'),
 DB = require('../store/database'),
@@ -62,24 +63,28 @@ User.prototype.save = function (callback) {
 
 User.findById = function (id, callback) {
     var SQL = util.format('SELECT %s.id FROM %s WHERE id = ? LIMIT 1', USER_TABLE, USER_TABLE);
-    DB.client.query(SQL, id, function (err, result) {
+    DB.client.query(SQL, id, function (err, result, fields) {
         if (err) {
             callback(err);
         } else {
-            callback(null, new User(result));
+            callback(null, new User(result[0]));
         }
     });
 };
 
 User.findByUsernameAndPassword = function (user, pass, callback) {
-    pass = bcrypt.hashSync(pass, bcrypt.genSaltSync(BCRPYT_SALT_ROUNDS));
 
-    var SQL = util.format('SELECT %s.username, %s.password FROM %s WHERE username = ? AND password = ? LIMIT 1', USER_TABLE, USER_TABLE, USER_TABLE);
-    DB.client.query(SQL, user, pass, function (err, result) {
+    var SQL = util.format('SELECT * FROM %s WHERE username = %s LIMIT 1',  USER_TABLE, mysql.escape(user));
+    DB.client.query(SQL, function (err, result, fields) {
             if (err) {
                 callback(err);
             } else {
-                callback(null, new User(result));
+                // Load DB hash and compare with current pass
+                if (bcrypt.compareSync(pass, result[0].password)) {
+                    callback(null, new User(result[0]));
+                } else {
+                    callback();
+                }
             }
         });
 
