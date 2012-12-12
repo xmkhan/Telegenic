@@ -29,20 +29,29 @@ exports.signup = function (req, res) {
         // TODO: add some query param to execute error msg
         res.redirect('/');
     } else {
-        user.save();
-        req.login(user, function (err) {
-            if (err) res.redirect('/');
-            res.redirect('/user/' + req.user.id);
+        user.save(function (err) {
+            if (err) {
+                res.redirect('/?wrong_info=true');
+            } else {
+                req.login(user, function (err) {
+                    if (err) res.redirect('/session_expired=true');
+                    else res.redirect('/user/' + req.user.id);
+                });
+            }
         });
     }
 };
 
 exports.login = function (req, res) {
 
-
-    User.findByUsernameAndPassword(req.body.username, req.body.password, function (err, user) {
+    User.findByUsernameAndPassword(req.body.user.username, req.body.user.password, function (err, user) {
         if (!err && user) {
-            res.redirect('/user/' + user.id);
+            req.login(user, function (err) {
+                if (err) res.redirect('/?session_expired=true');
+                else res.redirect('/user/' + user.id);
+            });
+        } else {
+            res.redirect('/?wrong_info=true');
         }
     });
 };

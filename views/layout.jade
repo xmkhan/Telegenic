@@ -45,16 +45,15 @@ html
                     strong.caret
                   ul.dropdown-menu
                     li
-                      form(action='/login', method='POST', style='height: 140px;')
+                      form(action='/login', method='post', style='height: 140px;')
                         .dropdown-menu-group
-                          input#username(type='text', placeholder='E-mail')
-                          input#password(type='password', placeholder='Password')
+                          input#user_login(type='text', placeholder='E-mail', name='user[username]')
+                          input#user_pass(type='password', placeholder='Password', name='user[password]')
                           label.checkbox
                             input(type='checkbox', value='')
                             | Remember me
                           .divider
-                        button.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In
-
+                        input.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In
       block content
       hr
       footer
