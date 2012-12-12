@@ -17,10 +17,6 @@ var express = require('express'),
 // Module level constants
 var SESSION_MAX_AGE_IN_NSEC = 86400000;
 
-DB.client.connect(function (err) {
-    if (err && err.fatal) throw err;
-});
-
 DB.client.query(
   "CREATE TABLE IF NOT EXISTS users ( \
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, \

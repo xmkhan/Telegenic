@@ -4,7 +4,6 @@ var mysql = require('mysql');
  * Database client - provides an instance of the mySQL connection instance
  * Example usage:
      * var DB = require('./database');
-     * DB.client.connect();
      * DB.client.query(SQLString, function(err, result)) {
      * ...
      * });
@@ -14,5 +13,26 @@ var mysql = require('mysql');
  */
 
 var client = mysql.createConnection(process.env.DATABASE_URL);
+
+function handleDisconnect(connection) {
+    connection.on('error', function (err) {
+        if (!err.fatal) {
+            return;
+        }
+
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+            throw err;
+        }
+
+        console.log('Re-connecting lost connection: ' + err.stack);
+
+        connection = mysql.createConnection(process.env.DATABASE_URL);
+        handleDisconnect(connection);
+        connection.connect();
+    });
+}
+
+handleDisconnect(client);
+
 
 exports.client = client;
