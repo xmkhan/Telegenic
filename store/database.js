@@ -33,6 +33,6 @@ function handleDisconnect(connection) {
 }
 
 handleDisconnect(client);
-
+client.connect();
 
 exports.client = client;
