@@ -32,7 +32,9 @@ function handleDisconnect(connection) {
     });
 }
 
-handleDisconnect(client);
+client.connect(function (err) {
+    if (err && err.fatal) return;
+    handleDisconnect(client);
+});
 
-
-exports.client = client;
+module.exports.client = client;
