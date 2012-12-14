@@ -86,6 +86,8 @@ app.configure(function () {
 
     app.get('/video', video.video);
 
+    app.get('/video2', video.video2);
+
     app.post('/signup', login.signup);
 
     app.post('/login', login.login);
