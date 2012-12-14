@@ -12,6 +12,7 @@ var express = require('express'),
  DB = require('./store/database'),
  CC = require('./store/cache'),
  login = require('./routes/login'),
+ video = require('./routes/video'),
  RedisStore = require('connect-redis')(express);
 
 // Module level constants
@@ -82,6 +83,8 @@ app.configure(function () {
     /* Current Routes */
 
     app.get('/', routes.index);
+
+    app.get('/video', video.video);
 
     app.post('/signup', login.signup);
 

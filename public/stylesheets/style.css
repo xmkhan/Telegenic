@@ -6,3 +6,28 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+/*  Video page css */
+.videoArea
+{
+	padding-top : 0px;
+}
+
+.boxsizingBorder {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width:100%;
+    resize:none;
+}
+
+.divCommentBox {
+	height:500px;
+}
+
+.div10pxTBPad {
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
+

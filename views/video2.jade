@@ -1,0 +1,54 @@
+extends layout
+
+block content
+	link(href="stylesheets/style.css", rel="stylesheet")
+	.container
+		.row
+			.span4
+				label Video Name here.
+		.row
+			.span7
+				video.videoArea(poster="images/sample.jpg", width="620", height="360", controls, autobuffer)
+				.row-fluid
+					.well.span11
+						label video description
+			.span5.widget-content
+				.row-fluid.well
+					ul.nav.nav-tabs.span12
+						li.active
+							a(href="#timed", data-toggle="tab") Timed Comments
+						li
+							a(href="#regular", data-toggle="tab") Regular Comments
+					form.form-horizontal.span12
+						.divCommentBox
+							label comment1
+							hr
+							label comment2
+							hr
+						.row
+							.span8.div10pxpadding
+								textarea.boxsizingBorder(row='4', placeholder="Type you comment here")
+							.span4.div10pxpadding
+								.row-fluid
+									.span12
+										label 00:05:59
+									.row-fluid
+										.span10
+											label Timed comment
+										.span2
+											input(type="checkbox", name="commentType", value="Timed")
+					
+		label Channel owner's videos
+		.row
+			.span1
+				input(type="image", src="images/nav_left_arrow.jpg",name="rightArrow", width="60", height="60")
+			.span10
+			.span1
+				input(type="image", src="images/nav_right_arrow.jpg",name="rightArrow", width="60", height="60")
+		label Suggested Videos
+		.row
+			.span1
+				input(type="image", src="images/nav_left_arrow.jpg",name="rightArrow", width="60", height="60")
+			.span10
+			.span1
+				input(type="image", src="images/nav_right_arrow.jpg",name="rightArrow", width="60", height="60")

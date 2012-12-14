@@ -37,7 +37,7 @@ block content
           p
             | Share your videos, find new videos, and explore video slices with paritioned comments. Use it as a starting point to create something unique.
           p
-            a.btn.btn-primary.btn-large Learn more &raquo;
+            a.btn.btn-primary.btn-large(id="test", name="test", onclick="test_onclick()", href="/video") Learn more &raquo;
         .span6.widget-content
           form.form-horizontal.well#signup_form(action='/signup', method='post')
             fieldset
@@ -73,3 +73,7 @@ block content
                   select.input-small.inline-select#year(name='year')
                     option(selected='selected', value=-1) Year
             input.btn.btn-primary(type='submit') Register
+  script.
+    var test_onclick = function() {
+
+    }
