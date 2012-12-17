@@ -1,26 +1,27 @@
 {
-    "name": "IO",
-    "version": "0.0.1",
-    "private": true,
-    "engines" : {
-        "node": "0.8.11",
-        "npm": "1.1.65"
-    },
-    "scripts": {
-        "start": "node app"
-    },
-    "dependencies": {
-        "express": "3.0.0",
-        "jade": "*",
-        "mysql": "2.0.0-alpha4",
-        "sequelize": "1.6.0-beta4",
-        "underscore": "1.4.2",
-        "async": "0.1.22",
-        "bcrypt": "0.7.3",
-        "passport":"0.1.15",
-        "passport-local": "0.1.6",
-        "hiredis": "0.1.14",
-        "redis": "0.8.2",
-        "connect-redis": "1.4.5"
-    }
+  "name": "IO",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "0.8.11",
+    "npm": "1.1.65"
+  },
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.0.0",
+    "jade": "*",
+    "mysql": "2.0.0-alpha4",
+    "sequelize": "1.6.0-beta4",
+    "underscore": "1.4.2",
+    "async": "0.1.22",
+    "bcrypt": "0.7.3",
+    "passport": "0.1.15",
+    "passport-local": "0.1.6",
+    "hiredis": "0.1.14",
+    "redis": "0.8.2",
+    "connect-redis": "1.4.5",
+    "step": "0.0.5"
+  }
 }
