@@ -24,6 +24,7 @@ function setDropdownTime(timeInSecs) {
 function setUpComments(video) {
 	if(video.paused) {
 		//alert("video paused");
+		
 	}
 	else {
 		//alert("video is playing");
