@@ -39,4 +39,4 @@ passport.use(new LocalStrategy({
   .error(function (err) { return done(err); });
 }));
 
-module.exports = exports = passport;
+module.exports.passport = passport;

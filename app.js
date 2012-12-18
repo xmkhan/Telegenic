@@ -8,7 +8,7 @@ url         = require('url'),
 routes      = require('./routes'),
 http        = require('http'),
 path        = require('path'),
-auth        = require('./auth/auth'),
+passport    = require('./auth/auth').passport,
 RedisClient = require('./store/cache'),
 login       = require('./routes/login'),
 RedisStore  = require('connect-redis')(express);
@@ -29,8 +29,8 @@ app.configure(function () {
     secret: process.env.CLIENT_SECRET || 'a5563829ee69090e6828278fbd5d43f8'
   }));
 
-  app.use(auth.passport.initialize());
-  app.use(auth.passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public/')));

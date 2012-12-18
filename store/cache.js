@@ -8,10 +8,10 @@ RedisClient = null;
  */
 function setup()
 {
-  var redisUrl =  url.parse(process.env.REDISTOGO_URL || process.env.REDIS_URL || "redis://localhost:6379");
+  var redisUrl =  url.parse(process.env.REDISTOGO_URL || process.env.REDIS_URL || "redis://root@localhost:6379");
   RedisClient = redis.createClient(redisUrl.port, redisUrl.hostname);
 
-  if (RedisClient.auth.split(":").length > 1)
+  if (redisUrl.auth.split(":").length > 1)
   {
     RedisClient.auth(redisUrl.auth.split(":")[1]);
   }
