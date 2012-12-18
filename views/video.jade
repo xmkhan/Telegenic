@@ -1,56 +1,96 @@
 extends layout
 
 block content
-	link(href="stylesheets/style.css", rel="stylesheet")
-	.container
-		.row
-			.span4
-				label Video Name here.
-		.row
-			.span7
-				video.videoArea(poster="images/sample.jpg", width="620", height="360", controls, autobuffer)
-				.row-fluid
-					.well.span11
-						label video description
-				label Channel owner's videos
-				.row
-					.span1.div10pxTBPad
-						input(type="image", src="images/nav_left_arrow.jpg",name="rightArrow", width="60", height="60")
-					.span5
-					.span1
-						input(type="image", src="images/nav_right_arrow.jpg",name="rightArrow", width="60", height="60")
-				label Suggested Videos
-				.row
-					.span1.div10pxTBPad
-						input(type="image", src="images/nav_left_arrow.jpg",name="rightArrow", width="60", height="60")
-					.span5
-					.span1
-						input(type="image", src="images/nav_right_arrow.jpg",name="rightArrow", width="60", height="60")
+  link(href="stylesheets/style.css", rel="stylesheet")
+  script(src="../javascripts/commentManager.js")
+  .container
+    .row
+      .span4
+        label Video Name here.
+    .row
+      .span7
+        video.videoArea(id="videoView_video", width="620", height="360", controls, autobuffer)
+          source(src="videos/mov_bbb.mp4", type="video/mp4")
+        .row-fluid
+          .well.span11
+            label video description
+        label Channel owner's videos
+        .row
+          .span1.div10pxTBPad
+            a.btn.btn-primary.btn-large(id="ownerVidPrev", name="ownerVidPrev", href="/placeholder") &laquo;
+          .span5
+          .span1
+            a.btn.btn-primary.btn-large(id="ownerVidNxt", name="ownerVidNxt", href="/placeholder") &raquo;
+        label Suggested Videos
+        .row
+          .span1.div10pxTBPad
+            a.btn.btn-primary.btn-large(id="suggestedVidPrev", name="suggestedVidPrev", href="/placeholder") &laquo;
+          .span5
+          .span1
+            a.btn.btn-primary.btn-large(id="suggestedVidNxt", name="suggestedVidNxt", href="/placeholder") &raquo;
 
-			.span5.widget-content
-				.row-fluid.well
-					ul.nav.nav-tabs.span12
-						li.active
-							a(href="#timed", data-toggle="tab") Timed Comments
-						li
-							a(href="#regular", data-toggle="tab") Regular Comments
-					form.form-horizontal.span12
-						.divCommentBox(id="commentBox")
-							label Newest comments at the top (close to the video)
-							hr
-							label older comments
-							hr
-						.row
-							.span8.div10pxpadding
-								textarea.boxsizingBorder(rows='4', placeholder="Have the comment box close to the suggestions. this way they might see another video that might interest them.")
-							.span4.div10pxpadding
-								.row-fluid
-									.span12
-										label 00:05:59
-									.row-fluid
-										.span10
-											label Timed comment
-										.span2
-											input(type="checkbox", name="commentType", value="Timed")
-					
-			
+      .span5.widget-content
+        .row-fluid.well
+          ul.nav.nav-tabs.span12
+            li.active
+              a(href="#timed", data-toggle="tab") Timed Comments
+            li
+              a(href="#regular", data-toggle="tab") Regular Comments
+          form.form-horizontal.span12
+            .divCommentBox(id="commentBox")
+              label Newest comments at the top (close to the video)
+              hr
+              label older comments
+              hr
+            .row
+              .span12
+                textarea.boxsizingBorder(rows='4', placeholder="Have the comment box close to the suggestions. this way they might see another video that might interest them.")
+              .row-fluid
+                .span6
+                  input.span6.btn.btn-primary(type="button", id="post", value="Post")
+                  input.span6.btn.btn-success(type="button", id="currentTime", value="Current Time")
+                .span6
+                  .span4
+                    select.span12.inline-select#hrs(name='hrs')
+                      optoin(selected='selected') hr
+                  .span1
+                    label :
+                  .span3
+                    select.span12.inline-select#min(name='min')
+                      optoin(selected='selected') m
+                  .span1
+                    label :
+                  .span3
+                    select.span12.inline-select#sec(name='sec')
+                      optoin(selected='selected') s
+
+block scripts
+  script
+    $(function(){
+      myVid=document.getElementById("videoView_video");
+
+      myVid.addEventListener('loadedmetadata', function() {
+        sec_numb = myVid.duration;  
+        var timeLabels=["hrs","min","sec"];
+        var time = new Array();
+        time[0]  = Math.floor(sec_numb / 3600);
+        time[1]  = Math.floor((sec_numb - (time[0] * 3600)) / 60);
+        time[2]  = Math.floor(sec_numb - (time[0] * 3600) - (time[1] * 60));
+
+        for(var j = 0; j < 3; j++) {
+          for(var i = 0; i < (time[j]+1); i++) {
+            var option;
+            if(i < 10) {
+              option = "<option value="+i+">"+0+i+"</option>";
+            }
+            else {
+              option = "<option value="+i+">"+i+"</option>";
+            }
+            $('#'+timeLabels[j]).append(option);
+          }
+        }
+        makeitgo(myVid);
+      });
+    });
+          
+      
