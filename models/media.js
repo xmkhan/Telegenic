@@ -5,8 +5,6 @@
 var
 Sequelize = require('sequelize'),
 sequelize = require('../store/database'),
-Binary = require('mongodb').Binary,
-mongodb = require('../store/mongodb')(),
 User = require('./user').User;
 
 /**
