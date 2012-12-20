@@ -4,12 +4,3 @@
 [submodule "public/select2"]
 	path = public/select2
 	url = https://github.com/ivaynberg/select2.git
-[submodule "public/underscore"]
-	path = public/underscore
-	url = https://github.com/documentcloud/underscore
-[submodule "public/backbone"]
-	path = public/backbone
-	url = https://github.com/documentcloud/backbone
-[submodule "public/mustache"]
-	path = public/mustache
-	url = https://github.com/janl/mustache.js
