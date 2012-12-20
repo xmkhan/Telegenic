@@ -23,7 +23,6 @@
     "connect-redis": "1.4.5",
     "step": "0.0.5",
     "node-uuid": "~1.4.0",
-    "mongodb": "~1.2.5",
-    "socket.io": "~0.9.13"
+    "formidable": "~1.0.11"
   }
 }
