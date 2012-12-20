@@ -24,6 +24,6 @@ module.exports.bcryptData = function bcryptData(data, callback) {
   );
 };
 
-module.exports.generateUUID = function generateUUID(data) {
+module.exports.generateUUID = function generateUUID() {
   return uuid.v4();
 };

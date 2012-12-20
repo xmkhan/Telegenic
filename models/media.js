@@ -16,12 +16,13 @@ User = require('./user').User;
 var Media = sequelize.define('Media', {
   identifier: { type: Sequelize.STRING, allowNull: false, unique: true, validate: { isUUID: 4 }},
   name: { type: Sequelize.STRING, allowNull: false, validate: { isAlphanumeric: true }},
-  instanceMethods: { store: function (data) {
-      mongodb.collection('Media', function (er, collection) {
-        if (er) console.log(er); //TODO: add error handling?
-        collection.insert({ 'data': new Binary(data), 'identifier': this.identifier });
-      });
-    }}
+  size           : { type: Sequelize.INTEGER, allowNull: false, validate: { isNumeric: true }}, // Current size of the Media
+  capacity       : { type: Sequelize.INTEGER, defaultValue: 0, validate: { isNumeric: true }}, // Total expected size of the Media
+  views          : { type: Sequelize.INTEGER, allowNull: false, validate: { isNumeric: true }},
+  instanceMethods: {
+    store : function (data, callback) {},
+    find: function (callback) {}
+  }
 });
 
 Media.hasOne(User, {foreignKey: 'userId'});
