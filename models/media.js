@@ -5,7 +5,7 @@
 var
 Sequelize = require('sequelize'),
 sequelize = require('../store/database'),
-User = require('./user').User;
+User = require('./user');
 
 /**
  * User : Defines the media
@@ -23,6 +23,4 @@ var Media = sequelize.define('Media', {
   }
 });
 
-Media.hasOne(User, {foreignKey: 'userId'});
-
-module.exports.Media = Media;
+module.exports = exports = Media;

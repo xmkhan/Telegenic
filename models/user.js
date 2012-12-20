@@ -4,7 +4,9 @@
 
 var
 Sequelize = require('sequelize'),
-sequelize = require('../store/database');
+sequelize = require('../store/database'),
+Media     = require('./media'),
+Comment   = require('./comment');
 
 /**
  * User : Defines the user
@@ -20,4 +22,7 @@ var User = sequelize.define('User', {
   birthday : { type: Sequelize.DATE, allowNull: true, validate: { isBefore: "1996-12-31" }}
 });
 
-module.exports.User = User;
+User.hasMany(Media, { foreignKey: 'mediaId'});
+User.hasMany(Comment, { foreignKey: 'commentId'});
+
+module.exports = exports = User;
