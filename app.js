@@ -43,6 +43,10 @@ app.configure(function () {
 
   app.get('/', routes.index);
 
+  app.get('/video', routes.video);
+
+  app.get('/video2', routes.video2);
+
   app.post('/signup', login.signup);
 
   app.post('/login', login.login);
