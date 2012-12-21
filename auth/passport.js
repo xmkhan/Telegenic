@@ -1,11 +1,13 @@
 var passport = require('passport'),
 LocalStrategy = require('passport-local').Strategy,
 bcrypt = require('bcrypt'),
-cache = require('../store/cache').client,
-User = require('../models/user').User;
+cache = require('../store/cache'),
+User = require('../models/user');
 
 // Module level constants
-var USER_NOT_FOUND_MSG = 'Incorrect username & password combination';
+var ERROR_MESSAGE = {
+  USER_NOT_FOUND: 'Incorrect username & password combination'
+};
 
 // Passport session setup
 passport.serializeUser(function (user, done) {
@@ -32,11 +34,11 @@ passport.use(new LocalStrategy({
   .success(function (user) {
     bcrypt.compare(password, user.password, function (err, matched) {
       if (err) done(err);
-      if (!matched) done(null, false, { message: USER_NOT_FOUND_MSG });
+      if (!matched) done(null, false, { message: ERROR_MESSAGE.USER_NOT_FOUND });
       return done(null, user);
     });
   })
   .error(function (err) { return done(err); });
 }));
 
-module.exports.passport = passport;
+module.exports = exports = passport;
