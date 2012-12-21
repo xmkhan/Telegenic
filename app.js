@@ -11,6 +11,7 @@ path        = require('path'),
 passport    = require('./auth/auth').passport,
 RedisClient = require('./store/cache'),
 login       = require('./routes/login'),
+video       = require('./routes/video'),
 RedisStore  = require('connect-redis')(express);
 
 var app = express();
