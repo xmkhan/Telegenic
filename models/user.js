@@ -25,7 +25,9 @@ var User = sequelize.define('User', {
   firstName: { type: Sequelize.STRING, allowNull: true },
   lastName : { type: Sequelize.STRING, allowNull: true },
   gender   : { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true }, // T = Male, F = Female
-  birthday : { type: Sequelize.DATE, allowNull: true, validate: { isBefore: "1996-12-31" }},
+  birthday : { type: Sequelize.DATE, allowNull: true, validate: { isBefore: "1996-12-31" }}
+},
+{
   instanceMethods: {
     comparePassword: function (pass, callback) {
       bcrypt.compare(pass, this.password, function (err, matched) {
@@ -76,5 +78,7 @@ var User = sequelize.define('User', {
 
 User.hasMany(Media, { foreignKey: 'mediaId'});
 User.hasMany(Comment, { foreignKey: 'commentId'});
+
+User.sync(); // Create the user table
 
 module.exports = exports = User;

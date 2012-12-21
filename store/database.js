@@ -37,7 +37,7 @@ setup();
  * Sequelize database connection
  * @type {[Object]}
  */
-module.exports = exports = new Sequelize(CONFIG.databaseName, CONFIG.username, CONFIG.password, {
+module.exports = exports = new Sequelize(CONFIG.database, CONFIG.username, CONFIG.password, {
   host: CONFIG.host,
   port: CONFIG.port,
   pool: { maxConnections: 10, maxIdleTime: 30 }

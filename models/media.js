@@ -21,7 +21,9 @@ var Media = sequelize.define('Media', {
   size           : { type: Sequelize.INTEGER, allowNull: false, validate: { isNumeric: true }}, // Current size of the Media
   capacity       : { type: Sequelize.INTEGER, defaultValue: 0, validate: { isNumeric: true }}, // Total expected size of the Media
   views          : { type: Sequelize.INTEGER, allowNull: false, validate: { isNumeric: true }},
-  __dir            : { type: Sequelize.STRING, allowNull: true, unique: true },
+  __dir            : { type: Sequelize.STRING, allowNull: true, unique: true }
+},
+{
   instanceMethods: {
     setDir : function () {
       this.__dir = (this.size != this.capacity) ? process.env.TMPDIR : process.env.MEDIADIR;
@@ -38,5 +40,7 @@ var Media = sequelize.define('Media', {
     }
   }
 });
+
+Media.sync(); // Create the media table
 
 module.exports = exports = Media;
