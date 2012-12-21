@@ -3,7 +3,7 @@
  */
 var
 fs         = require('fs'),
-socket     = require('socket.io').listen(80),
+socket     = require('socket.io').listen(4443),
 formidable = require('formidable'),
 Media      = require('../models/media');
 

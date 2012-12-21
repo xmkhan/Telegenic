@@ -79,6 +79,4 @@ var User = sequelize.define('User', {
 User.hasMany(Media, { foreignKey: 'mediaId'});
 User.hasMany(Comment, { foreignKey: 'commentId'});
 
-User.sync(); // Create the user table
-
 module.exports = exports = User;

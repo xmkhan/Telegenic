@@ -41,6 +41,4 @@ var Media = sequelize.define('Media', {
   }
 });
 
-Media.sync(); // Create the media table
-
 module.exports = exports = Media;

@@ -24,6 +24,4 @@ var Comment = sequelize.define('Comment', {
 Comment.hasOne(Comment, { as: 'reply' });
 Comment.hasOne(Comment, { as: 'discussion' });
 
-Comment.sync(); // Create the comment table
-
 module.exports = exports = Comment;
