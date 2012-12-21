@@ -11,6 +11,7 @@ path        = require('path'),
 passport    = require('./auth/passport'),
 RedisClient = require('./store/cache'),
 login       = require('./routes/login'),
+video       = require('./routes/video'),
 RedisStore  = require('connect-redis')(express);
 
 var app = express();
@@ -43,9 +44,9 @@ app.configure(function () {
 
   app.get('/', routes.index);
 
-  app.get('/video', routes.video);
+  app.get('/video', video.video);
 
-  app.get('/video2', routes.video2);
+  app.get('/video2', video.video2);
 
   app.post('/signup', login.signup);
 
