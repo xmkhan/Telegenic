@@ -21,11 +21,11 @@ var BCRYPT_SEED_ROUNDS = 10;
 var User = sequelize.define('User', {
   email    : { type: Sequelize.STRING, allowNull: false, unique: true, validate: { isEmail: true, notEmpty: true }},
   password : { type: Sequelize.STRING, allowNull: false },
-  username : {type: Sequelize.STRING, allowNull: true, unique: true, validate: { is: ["[a-z0-9\\.]", "i"], len: [4, 12], notEmpty: true }},
+  username : {type: Sequelize.STRING, allowNull: true, unique: true, validate: { is: ["[a-z0-9\\.]", "i"], len: [7, 12], notEmpty: true }},
   firstName: { type: Sequelize.STRING, allowNull: true },
   lastName : { type: Sequelize.STRING, allowNull: true },
   gender   : { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true }, // T = Male, F = Female
-  birthday : { type: Sequelize.DATE, allowNull: true, validate: { isBefore: "1996-12-31" }}
+  birthday : { type: Sequelize.DATE, allowNull: true, validate: { isAfter: "1920-01-01", isBefore: "1996-12-31" }}
 },
 {
   instanceMethods: {
@@ -37,6 +37,8 @@ var User = sequelize.define('User', {
   },
   classMethods: {
     encryptPassword: function (pass, callback) {
+      if (pass.length < 7) return callback(new Error('Password is too short'));
+
       step(
         function genSalt() {
           bcrypt.genSalt(BCRYPT_SEED_ROUNDS, this);
