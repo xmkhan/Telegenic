@@ -4,7 +4,6 @@
 var
 fs         = require('fs'),
 socket     = require('socket.io').listen(4443),
-formidable = require('formidable'),
 Media      = require('../models/media');
 
 // Module level constants
@@ -27,7 +26,6 @@ exports.video2 = function (req, res) {
 };
 
 exports.upload = function (req, res) {
-  var form = new formidable.IncomingForm();
 
   var Video = Media.build({
       identifier: Media.generateIdentifier(),
@@ -37,29 +35,4 @@ exports.upload = function (req, res) {
       views: 0
     });
 
-  form.on('fileBegin', function (name, file) {
-    Video.setDir();
-    file.path = Video.__dir;
-    file.name = Video.identifier;
-  });
-
-  form.on('progress', function (bytesRecieved, bytesExpected) {
-    if (Video.capacity === 0) Video.capacity = bytesExpected;
-    Video.size = bytesRecieved;
-    var progress = {
-      type: 'progress',
-      bytesRecieved: bytesRecieved,
-      bytesExpected: bytesExpected
-    };
-    socket.emit('progress', progress);
-  });
-
-  form.on('end', function () {
-    var oldPath = Video.path();
-    Video.setDir();
-    fs.rename(oldPath, Video.path(), function (err) {
-      Video.save();
-    });
-  });
-  form.parse(req);
 };
