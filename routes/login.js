@@ -1,57 +1,58 @@
 /**
  * POST - Handle user authenticating
  */
- var crypto = require('crypto'),
- User = require('../models/user'),
- util = require('util'),
- passport = require('../auth/auth').passport;
+var
+User     = require('../models/user'),
+util     = require('util'),
+bcrypt = require('bcrypt'),
+passport = require('../auth/passport'),
+step = require('step');
 
- exports.signup = function (req, res) {
-    // TODO: Need to apply frontend validation to the backend.
-    var name = req.body.full_name.split(" ");
-    var birthdayFormat = util.format("%d/%d/%d",
-      parseInt(req.body.month, 10) + 1,
-      req.body.day,
-      req.body.year);
-
-    var user = new User({
-        username: req.body.email, // By default we set the email -> username
-        password: req.body.password,
-        first_name: name[0],
-        last_name: name[name.length - 1],
-        email: req.body.email,
-        gender: req.body.gender,
-        birth_date: new Date(birthdayFormat)
-      });
-
-    if (!user) {
-      req.logout();
-        // TODO: add some query param to execute error msg
-        res.redirect('/');
+exports.signup = function (req, res) {
+  var user;
+  step(
+    function hashPassword() {
+      User.encryptPassword(req.body.password, this);
+    },
+    function createUser(err, hash) {
+      if (err) {
+        res.render('signup', { errors: [err] });
       } else {
-        user.save(function (err) {
-          if (err) {
-            res.redirect('/?wrong_info=true');
-          } else {
-            req.login(user, function (err) {
-              if (err) res.redirect('/session_expired=true');
-              else res.redirect('/user/' + req.user.id);
-            });
-          }
+        var fullName = req.body.full_name.split(" ");
+
+        user = User.build({
+          email: req.body.email,
+          username: req.body.email,
+          password: hash,
+          firstName: fullName[0],
+          lastName: fullName[fullName.length - 1],
+          gender: (req.body.gender === 0) ? false: true,
+          birthday: new Date(req.body.year, req.body.month + 1, req.body.day)
+        })
+        .save()
+        .success(function (user) {
+          // User data was valid!
+          req.session.regenerate(function (err) {
+            res.redirect('/user/' + user.id);
+          });
+        })
+        .error(function (err) {
+          // User data was invalid!
+        });
+
+      }
+    }
+  );
+};
+
+exports.login = function (req, res) {
+  if (req.body.user.username && req.body.password) {
+    User.login(req.body.user.username, req.body.password, function (found, user) {
+      if (found) {
+        req.session.regenerate(function (err) {
+          res.redirect('/user/' + user.id);
         });
       }
-    };
-
-    exports.login = function (req, res) {
-
-      User.findByUsernameAndPassword(req.body.user.username, req.body.user.password, function (err, user) {
-        if (!err && user) {
-          res.redirect('/user/' + user.id);
-          if (req.isUnauthenticated()) {
-            req.login(user, function (err) {});
-          }
-        } else {
-          res.redirect('/?wrong_info=true');
-        }
-      });
-    };
+    });
+  }
+};

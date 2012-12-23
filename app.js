@@ -8,10 +8,11 @@ url         = require('url'),
 routes      = require('./routes'),
 http        = require('http'),
 path        = require('path'),
-passport    = require('./auth/auth').passport,
+passport    = require('./auth/passport'),
 RedisClient = require('./store/cache'),
 login       = require('./routes/login'),
 video       = require('./routes/video'),
+sequelize   = require('./store/database'),
 RedisStore  = require('connect-redis')(express);
 
 var app = express();
@@ -36,6 +37,8 @@ app.configure(function () {
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public/')));
 
+  sequelize.sync();
+
   app.configure('development', function () {
     app.use(express.errorHandler());
   });
@@ -48,7 +51,8 @@ app.configure(function () {
 
   app.get('/video2', video.video2);
 
-  app.get('/videoupload', video.upload);
+  app.get('/upload', video.upload);
+  app.post('/upload', video.upload);
 
   app.post('/signup', login.signup);
 
