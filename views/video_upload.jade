@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  script(src="javascripts/jquery.filestyle.js")
+  link(href="stylesheets/style.css", rel="stylesheet")
+  .container
+    .row
+      .span6.widget-content
+        .well
+          fieldset
+            legend Create Videos
+            .row-fluid
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-camera
+                |  Webcam
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-picture
+                |  Photo album
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-facetime-video
+                |  Video Chat
+  .container
+    .row#uploadBox
+      .span6.widget-content
+        .well
+          fieldset
+            legend Video Uploader
+            .row-fluid#uploadArea
+              input(type="file", id="upload", name="upload", style="visibility:hidden;position:absolute;top:0;left:0")
+              input(type="button", id="upload", onclick="test()", style="cursor:pointer;")
+              label#uploadText Choose a Video File, 
+              label#uploadDragDrop or drag and drop into this box
+              
+  script
+    function test() {
+      $("#upload").click();
+    }

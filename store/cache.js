@@ -1,28 +1,22 @@
-var redis = require('redis'),
- url = require('url');
+var redis   = require('redis'),
+url         = require('url'),
+RedisClient = null;
 
 /**
- * Cache client - used to store into the in-memory redis server
- * Example usage:
-     * var CC = require('./cache');
-     * ...
-     * CC.client.quit(); | CC.client.end();
- *  It is up to the user to connect to retrieve the client, and end when the task
- *  is complete
- * @type {[Object]}
+ * Setup the redis client with the proper host/port, and send the AUTH command
+ * @return {[RedisClient]} Redis client
  */
+function setup()
+{
+  var redisUrl =  url.parse(process.env.REDISTOGO_URL || process.env.REDIS_URL || "redis://root@localhost:6379");
+  RedisClient = redis.createClient(redisUrl.port, redisUrl.hostname);
 
-// Module level constants
-var REDIS_DATABASE_NAME = 'redistogo';
-
-var client;
-
-if (process.env.REDISTOGO_URL) {
-    var redisURL =  url.parse(process.env.REDISTOGO_URL);
-    client = redis.createClient(redisURL.port, redisURL.host);
-    client.auth(redisURL.auth.split(':')[1]);
-} else {
-    client = redis.createClient();
+  if (redisUrl.auth.split(":").length > 1)
+  {
+    RedisClient.auth(redisUrl.auth.split(":")[1]);
+  }
 }
 
-module.exports.client = client;
+setup();
+
+module.exports = exports = RedisClient;
