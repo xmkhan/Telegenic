@@ -39,6 +39,11 @@ html
                     i.icon-white.icon-search
               ul.nav
                 div
+                  a.btn.btn-primary(id="videoUpload", name="videoUpload", href="/videoupload")
+                    i.icon-white.icon-upload
+                    |  Upload
+              ul.nav
+                div
                   a.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
                     i.icon-white.icon-user
                     |  Sign In &#32;
@@ -54,6 +59,7 @@ html
                             | Remember me
                           .divider
                         input.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In
+
       block content
       hr
       footer

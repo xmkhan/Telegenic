@@ -48,6 +48,8 @@ app.configure(function () {
 
   app.get('/video2', video.video2);
 
+  app.get('/videoupload', video.upload);
+
   app.post('/signup', login.signup);
 
   app.post('/login', login.login);

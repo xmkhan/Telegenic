@@ -35,3 +35,32 @@ a {
   padding-bottom: 30px;
 }
 
+#upload {
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background-image: url('../images/uploadoff.png');
+}
+#upload:hover {
+  text-align: center;
+  background-image: url('../images/uploadon.png');
+}
+
+#uploadText {
+  font-size: 110%;
+}
+
+#uploadDragDrop {
+  font-size: 90%;
+}
+
+.centeralign {
+  text-align: center;
+}
+#uploadArea {
+    text-align: center;
+}
+
