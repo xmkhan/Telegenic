@@ -1,11 +1,12 @@
 extends layout
 
+block append styles
+  link(href="stylesheets/jquery.fileupload-ui.css", rel="stylesheet")
+
 block content
-  script(src="javascripts/jquery.filestyle.js")
-  link(href="stylesheets/style.css", rel="stylesheet")
   .container
     .row
-      .span6.widget-content
+      .span7.widget-content
         .well
           fieldset
             legend Create Videos
@@ -21,17 +22,32 @@ block content
                 |  Video Chat
   .container
     .row#uploadBox
-      .span6.widget-content
+      .span7.widget-content
         .well
           fieldset
-            legend Video Uploader
+            legend Upload your video here!
             .row-fluid#uploadArea
-              input(type="file", id="upload", name="upload", style="visibility:hidden;position:absolute;top:0;left:0")
-              input(type="button", id="upload", onclick="test()", style="cursor:pointer;")
-              label#uploadText Choose a Video File, 
-              label#uploadDragDrop or drag and drop into this box
-              
+              div.hero-unit
+                span.uneditable-input#fileinput(style='cursor:default;')
+                span.btn.btn-success.fileinput-button
+                  span Select File
+                  input#file(type='file', name='file')
+                label.center
+                  | Choose a Video File,
+                  br
+                  | Or drag and drop into this box
+
+block append scripts
+  script(src="javascripts/jquery.ui.widget.js")
+  script(src="javascripts/jquery.fileupload.js")
   script
-    function test() {
-      $("#upload").click();
-    }
+    $(function() {
+      $('#file').fileupload({
+          dataType: 'json',
+          add: function (e, data) {
+            var filetext = "<i class='icon-file'></i>&#32;";
+            $('#fileinput').html(filetext + data.files[0].name);
+          },
+          done: function (e, data) {}
+        });
+    });

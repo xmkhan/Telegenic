@@ -7,11 +7,18 @@ a {
   color: #00B7FF;
 }
 
+/* Account login dropdown */
+.dropdown-menu-group {
+  margin: 10px;
+}
+.inline-select {
+  margin-left: 10px;
+}
 
 /*  Video page css */
 .videoArea
 {
-	padding-top : 0px;
+	padding-top: 0;
 }
 
 .boxsizingBorder {
@@ -35,32 +42,10 @@ a {
   padding-bottom: 30px;
 }
 
-#upload {
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  background-image: url('../images/uploadoff.png');
-}
-#upload:hover {
-  text-align: center;
-  background-image: url('../images/uploadon.png');
-}
-
-#uploadText {
-  font-size: 110%;
-}
-
-#uploadDragDrop {
-  font-size: 90%;
-}
-
-.centeralign {
+div.center {
   text-align: center;
 }
-#uploadArea {
-    text-align: center;
-}
 
+label.center {
+  text-align: center;
+}

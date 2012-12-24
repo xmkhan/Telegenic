@@ -3,25 +3,11 @@ html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title IO
-    - var DEFAULT_BOOTSTRAP_CSS_PATH = "bootstrap/docs/assets/css/"
-    - var DEFAULT_BOOTSTRAP_CSS = ["bootstrap.css", "bootstrap-responsive.css"]
-    each item in DEFAULT_BOOTSTRAP_CSS
-      link(href= DEFAULT_BOOTSTRAP_CSS_PATH + item, rel='stylesheet')
-    script(src="javascripts/jquery.min.js")
-    style(type='text/css')
-      .dropdown-menu-group {
-        margin: 10px;
-      }
-      .inline-select {
-        margin-left: 10px;
-      }
-    script
-      $(function(){
-        $('.dropdown-menu form').on('click', function (e) {
-          e.stopPropagation();
-        });
-      });
-    block scripts
+    block styles
+      link(href="stylesheets/style.css", rel="stylesheet")
+      link(href="bootstrap/docs/assets/css/bootstrap.css", rel="stylesheet")
+      link(href="bootstrap/docs/assets/css/bootstrap-responsive.css", rel="stylesheet")
+
     body
       .navbar.navbar-inverse.navbar-fixed-top
         .navbar-inner
@@ -39,7 +25,7 @@ html
                     i.icon-white.icon-search
               ul.nav
                 div
-                  a.btn.btn-primary(id="videoUpload", name="videoUpload", href="/videoupload")
+                  a.btn.btn-primary(id="videoUpload", name="videoUpload", href="/upload")
                     i.icon-white.icon-upload
                     |  Upload
               ul.nav
@@ -67,7 +53,12 @@ html
           p.
             &copy; IO 2012
 
-    - var DEFAULT_BOOTSTRAP_JS_PATH = "bootstrap/js/"
-    - var DEFAULT_BOOTSTRAP_JS = ["bootstrap-button.js", "bootstrap-transition.js", "bootstrap-dropdown.js", "bootstrap-collapse.js"]
-    each item in DEFAULT_BOOTSTRAP_JS
-      script(src= DEFAULT_BOOTSTRAP_JS_PATH + item)
+    block scripts
+      script(src="javascripts/jquery.min.js")
+      script(src='bootstrap/js/bootstrap-dropdown.js')
+      script
+        $(function(){
+          $('.dropdown-menu form').on('click', function (e) {
+            e.stopPropagation();
+          });
+        });
