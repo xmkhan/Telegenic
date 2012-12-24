@@ -28,10 +28,11 @@ block content
             legend Upload your video here!
             .row-fluid#uploadArea
               div.hero-unit
-                span.uneditable-input#fileinput(style='cursor:default;')
-                span.btn.btn-success.fileinput-button
-                  span Select File
-                  input#file(type='file', name='file')
+                div.row.center
+                  span.uneditable-input.span4#fileinput(style='cursor:default;')
+                  span.btn.fileinput-button
+                    span Select File
+                    input#file(type='file', name='file')
                 label.center
                   | Choose a Video File,
                   br

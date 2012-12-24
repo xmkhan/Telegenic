@@ -11,10 +11,9 @@
  */
 
 .fileinput-button {
-  position: relative;
+  position: absolute;
   overflow: hidden;
-  float: left;
-  margin-right: 4px;
+  margin-left: 5px;
 }
 .fileinput-button input {
   position: absolute;
