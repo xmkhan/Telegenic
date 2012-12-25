@@ -37,6 +37,9 @@ block content
                   | Choose a Video File,
                   br
                   | Or drag and drop into this box
+                  br
+                  div#progress.progress.progress-striped.active(style='visibility:hidden;')
+                    div.bar(style='width: 0%')
 
 block append scripts
   script(src="javascripts/jquery.ui.widget.js")
@@ -45,10 +48,18 @@ block append scripts
     $(function() {
       $('#file').fileupload({
           dataType: 'json',
+          url: '/upload',
           add: function (e, data) {
             var filetext = "<i class='icon-file'></i>&#32;";
             $('#fileinput').html(filetext + data.files[0].name);
+
+            $('#progress').css('visibility', 'visible');
+            data.submit();
           },
-          done: function (e, data) {}
+          progress: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css('width', progress + '%');
+          },
+          done: function (e, data) { console.log(data.result);}
         });
     });
