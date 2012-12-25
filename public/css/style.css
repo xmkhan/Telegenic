@@ -7,11 +7,18 @@ a {
   color: #00B7FF;
 }
 
+/* Account login dropdown */
+.dropdown-menu-group {
+  margin: 10px;
+}
+.inline-select {
+  margin-left: 10px;
+}
 
 /*  Video page css */
 .videoArea
 {
-	padding-top : 0px;
+	padding-top: 0;
 }
 
 .boxsizingBorder {
@@ -35,3 +42,10 @@ a {
   padding-bottom: 30px;
 }
 
+div.center {
+  text-align: center;
+}
+
+label.center {
+  text-align: center;
+}

@@ -3,25 +3,11 @@ html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title IO
-    - var DEFAULT_BOOTSTRAP_CSS_PATH = "bootstrap/docs/assets/css/"
-    - var DEFAULT_BOOTSTRAP_CSS = ["bootstrap.css", "bootstrap-responsive.css"]
-    each item in DEFAULT_BOOTSTRAP_CSS
-      link(href= DEFAULT_BOOTSTRAP_CSS_PATH + item, rel='stylesheet')
-    script(src="javascripts/jquery.min.js")
-    style(type='text/css')
-      .dropdown-menu-group {
-        margin: 10px;
-      }
-      .inline-select {
-        margin-left: 10px;
-      }
-    script
-      $(function(){
-        $('.dropdown-menu form').on('click', function (e) {
-          e.stopPropagation();
-        });
-      });
-    block scripts
+    block styles
+      link(href="css/style.css", rel="stylesheet")
+      link(href="bootstrap/docs/assets/css/bootstrap.css", rel="stylesheet")
+      link(href="bootstrap/docs/assets/css/bootstrap-responsive.css", rel="stylesheet")
+
     body
       .navbar.navbar-inverse.navbar-fixed-top
         .navbar-inner
@@ -39,6 +25,11 @@ html
                     i.icon-white.icon-search
               ul.nav
                 div
+                  a.btn.btn-primary(id="videoUpload", name="videoUpload", href="/upload")
+                    i.icon-white.icon-upload
+                    |  Upload
+              ul.nav
+                div
                   a.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
                     i.icon-white.icon-user
                     |  Sign In &#32;
@@ -47,13 +38,14 @@ html
                     li
                       form(action='/login', method='post', style='height: 140px;')
                         .dropdown-menu-group
-                          input#user_login(type='text', placeholder='E-mail', name='user[username]')
+                          input#user_login(type='text', placeholder='E-mail or Username', name='user[username]')
                           input#user_pass(type='password', placeholder='Password', name='user[password]')
                           label.checkbox
                             input(type='checkbox', value='')
                             | Remember me
                           .divider
                         input.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In
+
       block content
       hr
       footer
@@ -61,7 +53,12 @@ html
           p.
             &copy; IO 2012
 
-    - var DEFAULT_BOOTSTRAP_JS_PATH = "bootstrap/js/"
-    - var DEFAULT_BOOTSTRAP_JS = ["bootstrap-button.js", "bootstrap-transition.js", "bootstrap-dropdown.js", "bootstrap-collapse.js"]
-    each item in DEFAULT_BOOTSTRAP_JS
-      script(src= DEFAULT_BOOTSTRAP_JS_PATH + item)
+    block scripts
+      script(src="js/jquery.min.js")
+      script(src='bootstrap/js/bootstrap-dropdown.js')
+      script
+        $(function(){
+          $('.dropdown-menu form').on('click', function (e) {
+            e.stopPropagation();
+          });
+        });
