@@ -3,7 +3,6 @@
  */
 var
 fs         = require('fs'),
-socket     = require('socket.io').listen(4443),
 Media      = require('../models/media');
 
 // Module level constants
