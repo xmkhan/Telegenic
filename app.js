@@ -23,7 +23,7 @@ app.configure(function () {
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({ keepExtensions: true }));
   app.use(express.methodOverride());
   app.use(express.cookieParser(process.env.CLIENT_SECRET || 'a5563829ee69090e6828278fbd5d43f8'));
   app.use(express.session({

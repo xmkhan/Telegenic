@@ -1,7 +1,7 @@
 extends layout
 
 block append styles
-  link(href="stylesheets/jquery.fileupload-ui.css", rel="stylesheet")
+  link(href="css/upload/jquery.fileupload-ui.css", rel="stylesheet")
 
 block content
   .container
@@ -42,8 +42,9 @@ block content
                     div.bar(style='width: 0%')
 
 block append scripts
-  script(src="javascripts/jquery.ui.widget.js")
-  script(src="javascripts/jquery.fileupload.js")
+  script(src="js/upload/jquery.ui.widget.js")
+  script(src="js/upload/jquery.iframe-transport.js")
+  script(src="js/upload/jquery.fileupload.js")
   script
     $(function() {
       $('#file').fileupload({

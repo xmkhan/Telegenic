@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  link(href="stylesheets/style.css", rel="stylesheet")
-  script(src="../javascripts/commentManager.js")
+  link(href="css/style.css", rel="stylesheet")
+  script(src="js/commentManager.js")
   .container
     .row
       .span4
@@ -70,7 +70,7 @@ block scripts
       myVid=document.getElementById("videoView_video");
 
       myVid.addEventListener('loadedmetadata', function() {
-        sec_numb = myVid.duration;  
+        sec_numb = myVid.duration;
         var timeLabels=["hrs","min","sec"];
         var time = new Array();
         time[0]  = Math.floor(sec_numb / 3600);
@@ -92,5 +92,5 @@ block scripts
         makeitgo(myVid);
       });
     });
-          
-      
+
+
