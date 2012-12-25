@@ -30,13 +30,17 @@ exports.uploadPage = function (req, res) {
 };
 
 exports.upload = function (req, res) {
-
-  var Video = Media.build({
-      identifier: Media.generateIdentifier(),
-      name: req.body.filename,
-      size: 0,
-      capacity: 0,
-      views: 0
-    });
-
+  if (req.files.file) {
+    var Video = Media.build({
+        identifier: Media.generateIdentifier(),
+        name: req.files.file.name,
+        size: req.files.file.size,
+        capacity: req.files.file.size,
+        views: 0
+      });
+    Video.save();
+    res.json({ data: { status: '200'}});
+  } else {
+    res.json({ data: { status: '400' }});
+  }
 };
