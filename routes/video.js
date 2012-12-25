@@ -25,6 +25,10 @@ exports.video2 = function (req, res) {
   res.render('video2', { title: 'IO.' });
 };
 
+exports.uploadPage = function (req, res) {
+	res.render('video_upload', { title: 'IO.' });
+};
+
 exports.upload = function (req, res) {
   if (req.files.file) {
     var Video = Media.build({

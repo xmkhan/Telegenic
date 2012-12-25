@@ -1,0 +1,65 @@
+extends layout
+
+block append styles
+  link(href="stylesheets/jquery.fileupload-ui.css", rel="stylesheet")
+
+block content
+  .container
+    .row
+      .span7.widget-content
+        .well
+          fieldset
+            legend Create Videos
+            .row-fluid
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-camera
+                |  Webcam
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-picture
+                |  Photo album
+              a.span4.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.icon-white.icon-facetime-video
+                |  Video Chat
+  .container
+    .row#uploadBox
+      .span7.widget-content
+        .well
+          fieldset
+            legend Upload your video here!
+            .row-fluid#uploadArea
+              div.hero-unit
+                div.row.center
+                  span.uneditable-input.span4#fileinput(style='cursor:default;')
+                  span.btn.fileinput-button
+                    span Select File
+                    input#file(type='file', name='file')
+                label.center
+                  | Choose a Video File,
+                  br
+                  | Or drag and drop into this box
+                  br
+                  div#progress.progress.progress-striped.active(style='visibility:hidden;')
+                    div.bar(style='width: 0%')
+
+block append scripts
+  script(src="javascripts/jquery.ui.widget.js")
+  script(src="javascripts/jquery.fileupload.js")
+  script
+    $(function() {
+      $('#file').fileupload({
+          dataType: 'json',
+          url: '/upload',
+          add: function (e, data) {
+            var filetext = "<i class='icon-file'></i>&#32;";
+            $('#fileinput').html(filetext + data.files[0].name);
+
+            $('#progress').css('visibility', 'visible');
+            data.submit();
+          },
+          progress: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css('width', progress + '%');
+          },
+          done: function (e, data) { console.log(data.result);}
+        });
+    });
