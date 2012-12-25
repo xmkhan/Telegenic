@@ -44,7 +44,7 @@
     "shadow"        : false,  // Allows re-define variables later in code e.g. `var x=1; x=2;`.
     "supernew"      : false,  // Tolerate `new function () { ... };` and `new Object;`.
     "undef"         : true,   // Require all non-global variables be declared before they are used.
-    "indent"         : 4,      // Requires an indentation of 2 spaces
+    "indent"         : 2,      // Requires an indentation of 2 spaces
 
     // Persone styling prefrences.
     "multistr"      : true,   // Allows the use of multi-line strings (note: to remove space at EOL)

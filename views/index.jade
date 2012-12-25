@@ -1,33 +1,5 @@
 extends layout
 
-block scripts
-  script
-    $(function(){
-      var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      $.each(MONTHS, function(index, value) {
-          var optionMonthString = "<option value="+index+">"+value+"</option>";
-          $('#month').append(optionMonthString);
-      });
-      for(var j=new Date().getFullYear(); j >= 1920; j--) {
-        var year = "<option value="+j+">"+j+"</option>";
-        $('#year').append(year);
-      }
-      for (var j=1; j<=31; j++) {
-        var day = "<option value="+j+">"+j+"</option>";
-        $('#day').append(day);
-      }
-      var DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      $('#month').change(function() {
-          $('#day').empty();
-          var defaultDayOptionString = "<option value=-1 selected=\"selected\">Day</option>";
-          $('#day').append(defaultDayOptionString);
-          var DAYS_IN_MONTH = DAYS[$('#month').val()];
-          for (var i=1;i<=DAYS_IN_MONTH;i++) {
-            var optionDayString = "<option value="+i+">"+i+"</option>";
-            $('#day').append(optionDayString);
-          }
-        });
-    });
 block content
   .container
       .hero-unit
@@ -56,8 +28,8 @@ block content
                 label.control-label Gender:
                 .controls
                   select.input-xlarge#gender(name='gender')
-                    option Male
-                    option Female
+                    option(value='1') Male
+                    option(value='0') Female
               .control-group
                 label.control-label(for='full_name') Name:
                 .controls
@@ -73,7 +45,32 @@ block content
                   select.input-small.inline-select#year(name='year')
                     option(selected='selected', value=-1) Year
             input.btn.btn-primary(type='submit') Register
-  script.
-    var test_onclick = function() {
 
-    }
+block append scripts
+  script
+    $(function(){
+      var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      $.each(MONTHS, function(index, value) {
+          var optionMonthString = "<option value="+index+">"+value+"</option>";
+          $('#month').append(optionMonthString);
+      });
+      for(var j=new Date().getFullYear(); j >= 1920; j--) {
+        var year = "<option value="+j+">"+j+"</option>";
+        $('#year').append(year);
+      }
+      for (var j=1; j<=31; j++) {
+        var day = "<option value="+j+">"+j+"</option>";
+        $('#day').append(day);
+      }
+      var DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      $('#month').change(function() {
+          $('#day').empty();
+          var defaultDayOptionString = "<option value=-1 selected=\"selected\">Day</option>";
+          $('#day').append(defaultDayOptionString);
+          var DAYS_IN_MONTH = DAYS[$('#month').val()];
+          for (var i=1;i<=DAYS_IN_MONTH;i++) {
+            var optionDayString = "<option value="+i+">"+i+"</option>";
+            $('#day').append(optionDayString);
+          }
+        });
+    });

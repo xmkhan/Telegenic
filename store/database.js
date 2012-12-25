@@ -1,40 +1,44 @@
-var mysql = require('mysql');
+var Sequelize = require('sequelize'),
+util          = require('util'),
+url           = require('url');
+
+// Module level constants
+var CONFIG = {
+  username: null,
+  password: null,
+  host: null,
+  port: null,
+  database: null,
+};
 
 /**
- * Database client - provides an instance of the mySQL connection instance
- * Example usage:
-     * var DB = require('./database');
-     * DB.client.query(SQLString, function(err, result)) {
-     * ...
-     * });
- *  It is up to the user to handle connect() and end(), the user can provide a
- *  callback function to handle error/result responses
- * @type {[Object]}
+ * If process.env.DATABASE_URL is provided, the configuration will be parsed from it
+ * Builds the DB CONFIG for Sequelize initialization
  */
+function setup() {
+  if (process.env.DATABASE_URL)
+  {
+    // Build CONFIG using the expected db://user:pass@host:port/db scheme
+    var configUrl   = url.parse(process.env.DATABASE_URL);
 
-var client = mysql.createConnection(process.env.DATABASE_URL);
+    CONFIG.username = configUrl.auth.split(":")[0];
+    CONFIG.password = (configUrl.auth.split(":").length <= 1) ? "":  configUrl.auth.split(":")[1];
+    CONFIG.host     = configUrl.hostname;
+    CONFIG.port     = configUrl.port ? configUrl.port : 3306;
+    CONFIG.database = configUrl.pathname.slice(1);
+  }
 
-function handleDisconnect(connection) {
-    connection.on('error', function (err) {
-        if (!err.fatal) {
-            return;
-        }
-
-        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-            throw err;
-        }
-
-        console.log('Re-connecting lost connection: ' + err.stack);
-
-        connection = mysql.createConnection(process.env.DATABASE_URL);
-        handleDisconnect(connection);
-        connection.connect();
-    });
+  console.log(CONFIG);
 }
 
-client.connect(function (err) {
-    if (err && err.fatal) return;
-    handleDisconnect(client);
-});
+setup();
 
-module.exports.client = client;
+/**
+ * Sequelize database connection
+ * @type {[Object]}
+ */
+module.exports = exports = new Sequelize(CONFIG.database, CONFIG.username, CONFIG.password, {
+  host: CONFIG.host,
+  port: CONFIG.port,
+  pool: { maxConnections: 10, maxIdleTime: 30 }
+});
