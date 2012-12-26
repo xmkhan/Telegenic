@@ -52,28 +52,6 @@ var User = sequelize.define('User', {
           else callback(null, hash);
         }
         );
-    },
-    login: function (user, email, password, callback) {
-      if ((!user || !email) && password) return callback(false);
-      var USER_WHERE_CLAUSE = 'username = ?';
-      var EMAIL_WHERE_CLAUSE = 'email = ?';
-      var WHERE_CLAUSE;
-      if (user && email) WHERE_CLAUSE = USER_WHERE_CLAUSE + ' OR ' + EMAIL_WHERE_CLAUSE;
-      else if (user && !email) WHERE_CLAUSE = USER_WHERE_CLAUSE;
-      else if (!user && email) WHERE_CLAUSE = EMAIL_WHERE_CLAUSE;
-
-      User.find({
-        where: WHERE_CLAUSE,
-        limit: 1
-      })
-      .success(function (user) {
-        bcrypt.compare(password, user.password, function (err, matched) {
-          callback((err || !matched) ? false: true, user);
-        });
-      })
-      .error(function (err) {
-        callback(false);
-      });
     }
   }
 });

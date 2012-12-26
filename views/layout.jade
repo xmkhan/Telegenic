@@ -16,7 +16,7 @@ html
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.brand IO
+            a.brand(href='/') IO
             .nav-collapse.collapse
               ul.nav
                 form.navbar-form
@@ -41,7 +41,7 @@ html
                           input#user_login(type='text', placeholder='E-mail or Username', name='user[username]')
                           input#user_pass(type='password', placeholder='Password', name='user[password]')
                           label.checkbox
-                            input(type='checkbox', value='')
+                            input(type='checkbox', value='', name='user[remember_me]')
                             | Remember me
                           .divider
                         input.btn.btn-primary(type='submit', style='margin: 5px 0px 5px 85px') Sign In

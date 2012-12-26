@@ -32,27 +32,30 @@ exports.signup = function (req, res) {
         .save()
         .success(function (user) {
           // User data was valid!
-          req.session.regenerate(function (err) {
-            res.redirect('/user/' + user.id);
+          req.logIn(user, function (err) {
+            if (!err) return res.redirect('/users/' + user.id);
           });
         })
         .error(function (err) {
           // User data was invalid!
         });
-
       }
     }
   );
 };
 
-exports.login = function (req, res) {
-  if (req.body.user.username && req.body.password) {
-    User.login(req.body.user.username, req.body.password, function (found, user) {
-      if (found) {
-        req.session.regenerate(function (err) {
-          res.redirect('/user/' + user.id);
-        });
-      }
-    });
-  }
+exports.login = function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+    if (!user) return res.redirect('/login');
+    if (req.user.remember_me) {
+      // User wants to be kept signed in, grant a session
+      req.logIn(user, function (err) {
+        if (err) return res.redirect('/login');
+        res.redirect('/users' + user.id);
+      });
+    } else {
+      req.session.destroy();
+      res.redirect('/users' + user.id);
+    }
+  })(req, res, next);
 };

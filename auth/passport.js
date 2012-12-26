@@ -29,8 +29,10 @@ passport.use(new LocalStrategy({
   passwordField: 'user[password]'
 
 }, function (username, password, done) {
-
-  User.find({where: {username : username }})
+  User.find({
+    where: ['username = ? or email = ?', username, username],
+    limit: 1
+  })
   .success(function (user) {
     bcrypt.compare(password, user.password, function (err, matched) {
       if (err) done(err);
