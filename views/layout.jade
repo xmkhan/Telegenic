@@ -19,10 +19,11 @@ html
             a.brand IO
             .nav-collapse.collapse
               ul.nav
-                form.navbar-form
-                  input.search-query.span4(type='text', placeholder='Search', data-provide="typeahead")
-                  button.btn.btn-danger(type='submit', style='margin-left:5px;')
-                    i.icon-white.icon-search
+                form.navbar-form.form-search
+                  .input-append
+                    input.search-query.span4(type='text', placeholder='Search', data-provide="typeahead")
+                    button.btn.btn-danger(type='submit')
+                      i.icon-white.icon-search
               ul.nav
                 div
                   a.btn.btn-primary(id="videoUpload", name="videoUpload", href="/upload")
