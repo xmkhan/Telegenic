@@ -46,12 +46,13 @@ exports.signup = function (req, res) {
 
 exports.login = function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
-    if (!user) return res.redirect('/login');
-    if (req.user.remember_me) {
+    if (!user || err) {
+      return res.redirect('/');
+    } else if (req.body.user.remember_me) {
       // User wants to be kept signed in, grant a session
       req.logIn(user, function (err) {
-        if (err) return res.redirect('/login');
-        res.redirect('/users' + user.id);
+        if (err) return res.redirect('/');
+        else res.redirect('/users' + user.id);
       });
     } else {
       req.session.destroy();

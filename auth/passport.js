@@ -30,13 +30,13 @@ passport.use(new LocalStrategy({
 
 }, function (username, password, done) {
   User.find({
-    where: ['username = ? or email = ?', username, username],
+    where: ['username = ? OR email = ?', username, username],
     limit: 1
   })
   .success(function (user) {
     bcrypt.compare(password, user.password, function (err, matched) {
       if (err) done(err);
-      if (!matched) done(null, false, { message: ERROR_MESSAGE.USER_NOT_FOUND });
+      if (!matched) return done(null, false, { message: ERROR_MESSAGE.USER_NOT_FOUND });
       return done(null, user);
     });
   })
