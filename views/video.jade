@@ -39,10 +39,18 @@ block content
             li
               a(href="#regular", data-toggle="tab") Regular Comments
           form.form-horizontal.span12
-            .divCommentBox.customScrollbar(id="commentBox")
+            .divCommentBox.content.content_1(id="commentBox")
               label Newest comments at the top (close to the video)
               hr
               label older comments
+              hr
+              label another comment
+              hr
+              label another comment
+              hr
+              label another comment
+              hr
+              label another comment
               hr
               label another comment
               hr
@@ -86,10 +94,15 @@ block append scripts
   script(src="js/jquery-ui.min.js")
 
   script
-    $(function(){  
+    $(function(){ 
       $(window).load(function(){
-        $(".customScrollbar").mCustomScrollbar();
+        $(".content_1").mCustomScrollbar({
+          scrollButtons:{
+            enable:true
+          }
+        });
       });
+
       myVid=document.getElementById("videoView_video");
 
       myVid.addEventListener('loadedmetadata', function() {
