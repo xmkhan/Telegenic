@@ -39,32 +39,8 @@ block content
             li
               a(href="#regular", data-toggle="tab") Regular Comments
           form.form-horizontal.span12
-            .divCommentBox.content.content_1(id="commentBox")
-              label Newest comments at the top (close to the video)
-              hr
-              label older comments
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
-              hr
-              label another comment
+            .divCommentBox.content.content_1
+              div(id="commentBox")
             .row
               .span12
                 textarea.boxsizingBorder(rows='4', placeholder="Have the comment box close to the suggestions. this way they might see another video that might interest them.")
@@ -95,6 +71,7 @@ block append scripts
 
   script
     $(function(){ 
+
       $(window).load(function(){
         $(".content_1").mCustomScrollbar({
           scrollButtons:{
@@ -104,6 +81,46 @@ block append scripts
       });
 
       myVid=document.getElementById("videoView_video");
+
+      function fetchComments() 
+      {
+        var myJSONObject = {"bindings": [
+        {"content": "first commment", "method": "newURI", "time": "1"},
+        {"content": "second comment", "method": "deleteURI", "time": "5"},
+        {"content": "third comment", "method": "randomURI", "time": "8"}
+        ]
+        };
+        return myJSONObject;
+      }
+
+      var myJSONObject = fetchComments();
+      
+      var commentNum = 0;
+      var commentTime = 0;
+      
+      myVid.addEventListener('play',myHandler,false);
+      function myHandler(e) {
+        if(!e) { e = window.event; }
+        myFunction();
+      }
+      
+      function myFunction()
+      {
+        commentTime = parseInt(myJSONObject.bindings[commentNum].time);
+        console.log(commentTime);
+        console.log(myVid.currentTime);
+        if(commentTime === parseInt(myVid.currentTime)) {
+          $("#commentBox").prepend("<b>"+myJSONObject.bindings[commentNum].content+"</b>. <hr>");
+          commentNum++;
+          if(commentNum !== myJSONObject.bindings.length) {
+            setTimeout(function(){myFunction()},(myJSONObject.bindings[commentNum].time-myVid.currentTime)*1000);
+          }
+        }
+        else {
+          console.log(commentTime-myVid.currentTime);
+          setTimeout(function(){myFunction()},(commentTime-myVid.currentTime)*1000); 
+        }
+      }
 
       myVid.addEventListener('loadedmetadata', function() {
         sec_numb = myVid.duration;
