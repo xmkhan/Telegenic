@@ -4,3 +4,6 @@
 [submodule "public/select2"]
 	path = public/select2
 	url = https://github.com/ivaynberg/select2.git
+[submodule "public/malihu-custom-scrollbar-plugin"]
+	path = public/malihu-custom-scrollbar-plugin
+	url = https://github.com/malihu/malihu-custom-scrollbar-plugin.git

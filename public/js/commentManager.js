@@ -1,7 +1,7 @@
 function makeitgo(video) {
 	$("#currentTime").click({param1: video}, setCurrentTime);
 	$("#post").click(postComment);
-	loadComments(video);
+	setUpComments(video);
 }
 
 function setCurrentTime(event) {

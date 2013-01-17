@@ -1,8 +1,10 @@
 extends layout
 
-block content
+block append styles
   link(href="css/style.css", rel="stylesheet")
-  script(src="js/commentManager.js")
+  link(href="css/mCSB/jquery.mCustomScrollbar.css", rel="stylesheet")
+
+block content
   .container
     .row
       .span4
@@ -10,7 +12,7 @@ block content
     .row
       .span7
         video.videoArea(id="videoView_video", width="620", height="360", controls, autobuffer)
-          source(src="videos/mov_bbb.mp4", type="video/mp4")
+          source(src="assets/mov_bbb.mp4", type="video/mp4")
         .row-fluid
           .well.span11
             label video description
@@ -37,11 +39,8 @@ block content
             li
               a(href="#regular", data-toggle="tab") Regular Comments
           form.form-horizontal.span12
-            .divCommentBox(id="commentBox")
-              label Newest comments at the top (close to the video)
-              hr
-              label older comments
-              hr
+            .divCommentBox.content.content_1
+              div(id="commentBox")
             .row
               .span12
                 textarea.boxsizingBorder(rows='4', placeholder="Have the comment box close to the suggestions. this way they might see another video that might interest them.")
@@ -64,10 +63,64 @@ block content
                     select.span12.inline-select#sec(name='sec')
                       optoin(selected='selected') s
 
-block scripts
+block append scripts
+  script(src="js/commentManager.js")
+  script(src="js/mCSB/jquery.mousewheel.min.js")
+  script(src="js/mCSB/jquery.mCustomScrollbar.js")
+  script(src="js/jquery-ui.min.js")
+
   script
-    $(function(){
+    $(function(){ 
+
+      $(window).load(function(){
+        $(".content_1").mCustomScrollbar({
+          scrollButtons:{
+            enable:true
+          }
+        });
+      });
+
       myVid=document.getElementById("videoView_video");
+
+      function fetchComments() 
+      {
+        var myJSONObject = {"bindings": [
+        {"content": "first commment", "method": "newURI", "time": "1"},
+        {"content": "second comment", "method": "deleteURI", "time": "5"},
+        {"content": "third comment", "method": "randomURI", "time": "8"}
+        ]
+        };
+        return myJSONObject;
+      }
+
+      var myJSONObject = fetchComments();
+      
+      var commentNum = 0;
+      var commentTime = 0;
+      
+      myVid.addEventListener('play',myHandler,false);
+      function myHandler(e) {
+        if(!e) { e = window.event; }
+        myFunction();
+      }
+      
+      function myFunction()
+      {
+        commentTime = parseInt(myJSONObject.bindings[commentNum].time);
+        console.log(commentTime);
+        console.log(myVid.currentTime);
+        if(commentTime === parseInt(myVid.currentTime)) {
+          $("#commentBox").prepend("<b>"+myJSONObject.bindings[commentNum].content+"</b>. <hr>");
+          commentNum++;
+          if(commentNum !== myJSONObject.bindings.length) {
+            setTimeout(function(){myFunction()},(myJSONObject.bindings[commentNum].time-myVid.currentTime)*1000);
+          }
+        }
+        else {
+          console.log(commentTime-myVid.currentTime);
+          setTimeout(function(){myFunction()},(commentTime-myVid.currentTime)*1000); 
+        }
+      }
 
       myVid.addEventListener('loadedmetadata', function() {
         sec_numb = myVid.duration;
